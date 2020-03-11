@@ -29,7 +29,6 @@ public class ManageUser extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTUser = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        jBEdit = new javax.swing.JButton();
         jBDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -53,8 +52,6 @@ public class ManageUser extends javax.swing.JFrame {
 
         jLabel4.setText("User");
 
-        jBEdit.setText("Edit");
-
         jBDelete.setText("Delete");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -74,9 +71,7 @@ public class ManageUser extends javax.swing.JFrame {
                                     .addComponent(jTFnama))
                                 .addGap(37, 37, 37))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(jBEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(112, 112, 112)
                                 .addComponent(jBDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
                                 .addGap(29, 29, 29)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -102,9 +97,7 @@ public class ManageUser extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jTFUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBEdit)
-                            .addComponent(jBDelete))))
+                        .addComponent(jBDelete)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -149,7 +142,6 @@ public class ManageUser extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBDelete;
-    private javax.swing.JButton jBEdit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

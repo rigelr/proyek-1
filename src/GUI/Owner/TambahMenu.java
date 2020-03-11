@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package GUI.Owner;
 
 /**
  *
@@ -30,11 +30,9 @@ public class TambahMenu extends javax.swing.JFrame {
         JLStok = new javax.swing.JLabel();
         JLKategori = new javax.swing.JLabel();
         JLDeskripsi = new javax.swing.JLabel();
-        JTIdMenu = new javax.swing.JTextField();
         JTNama = new javax.swing.JTextField();
         JTHarga = new javax.swing.JTextField();
         JTStok = new javax.swing.JTextField();
-        jLidMenu = new javax.swing.JLabel();
         JTDeskripsi = new javax.swing.JTextField();
         JLNama = new javax.swing.JLabel();
         JCBKategori = new javax.swing.JComboBox();
@@ -50,19 +48,11 @@ public class TambahMenu extends javax.swing.JFrame {
 
         JLDeskripsi.setText("Deskripsi");
 
-        JTIdMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTIdMenuActionPerformed(evt);
-            }
-        });
-
         JTStok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JTStokActionPerformed(evt);
             }
         });
-
-        jLidMenu.setText("ID Menu");
 
         JLNama.setText("Nama");
 
@@ -93,15 +83,10 @@ public class TambahMenu extends javax.swing.JFrame {
                         .addComponent(JLHarga)
                         .addGap(77, 77, 77)
                         .addComponent(JTHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLidMenu)
-                            .addGap(66, 66, 66)
-                            .addComponent(JTIdMenu))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(JLNama)
-                            .addGap(78, 78, 78)
-                            .addComponent(JTNama, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(JLNama)
+                        .addGap(78, 78, 78)
+                        .addComponent(JTNama, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JLStok)
@@ -121,11 +106,7 @@ public class TambahMenu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLidMenu)
-                    .addComponent(JTIdMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(81, 81, 81)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JLNama)
                     .addComponent(JTNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -152,10 +133,6 @@ public class TambahMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void JTIdMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTIdMenuActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JTIdMenuActionPerformed
 
     private void JTStokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTStokActionPerformed
         // TODO add your handling code here:
@@ -206,10 +183,8 @@ public class TambahMenu extends javax.swing.JFrame {
     private javax.swing.JLabel JLStok;
     private javax.swing.JTextField JTDeskripsi;
     private javax.swing.JTextField JTHarga;
-    private javax.swing.JTextField JTIdMenu;
     private javax.swing.JTextField JTNama;
     private javax.swing.JTextField JTStok;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLidMenu;
     // End of variables declaration//GEN-END:variables
 }
