@@ -40,17 +40,10 @@
                       <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
                       <Component id="JTHarga" min="-2" pref="149" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLidMenu" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                          <Component id="JTIdMenu" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="JLNama" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
-                          <Component id="JTNama" min="-2" pref="149" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="JLNama" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                      <Component id="JTNama" min="-2" pref="149" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -78,12 +71,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLidMenu" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="JTIdMenu" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="JLNama" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="JTNama" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -131,11 +119,6 @@
         <Property name="text" type="java.lang.String" value="Deskripsi"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="JTIdMenu">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JTIdMenuActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JTextField" name="JTNama">
     </Component>
     <Component class="javax.swing.JTextField" name="JTHarga">
@@ -144,11 +127,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JTStokActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLidMenu">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ID Menu"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="JTDeskripsi">
     </Component>
