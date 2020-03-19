@@ -10,8 +10,8 @@ package model;
  * @author Acer Swift 3
  */
 public class PesananModel {
-    int id_pesanan,jumlah,deleted_status,id_menu;
-    String id_transaksi;
+    int id_pesanan,jumlah,deleted_status,menu_id_menu;
+    String transaksi_idtransaksi;
 
     public int getId_pesanan() {
         return id_pesanan;
@@ -37,22 +37,26 @@ public class PesananModel {
         this.deleted_status = deleted_status;
     }
 
-    public int getId_menu() {
-        return id_menu;
+    public int getMenu_id_menu() {
+        return menu_id_menu;
     }
 
-    public void setId_menu(int id_menu) {
-        this.id_menu = id_menu;
+    public void setMenu_id_menu(int menu_id_menu) {
+        this.menu_id_menu = menu_id_menu;
     }
 
-    public String getId_transaksi() {
-        return id_transaksi;
+    public String getTransaksi_idtransaksi() {
+        return transaksi_idtransaksi;
     }
 
-    public void setId_transaksi(String id_transaksi) {
-        this.id_transaksi = id_transaksi;
+    public void setTransaksi_idtransaksi(String transaksi_idtransaksi) {
+        this.transaksi_idtransaksi = transaksi_idtransaksi;
     }
     
+    
+    
+    
+
     
     
 }
