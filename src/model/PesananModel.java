@@ -10,9 +10,18 @@ package model;
  * @author Acer Swift 3
  */
 public class PesananModel {
-    int id_pesanan,jumlah,deleted_status,menu_id_menu;
+    int id_pesanan,jumlah,deleted_status,menu_id_menu,idNow;
     String transaksi_idtransaksi;
 
+    public int getIdNow() {
+        return idNow;
+    }
+
+    public void setIdNow(int idNow) {
+        this.idNow = idNow;
+    }
+
+    
     public int getId_pesanan() {
         return id_pesanan;
     }
