@@ -94,8 +94,6 @@ public class HomeKasir extends javax.swing.JFrame {
                 //Set up the layout of the buttons
                 experimentLayout.layoutContainer(compsToExperiment);
             }
-
-          
         });
         pane.add(compsToExperiment, BorderLayout.NORTH);
         pane.add(new JSeparator(), BorderLayout.CENTER);
@@ -130,17 +128,7 @@ public class HomeKasir extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 453, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
-        );
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
