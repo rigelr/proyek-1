@@ -47,6 +47,7 @@ public class UserDao implements UserInterface{
         } catch (SQLException ex) {
             koneksiDatabase.rollback();
             throw ex;
+            
         } finally {
             try {
                 koneksiDatabase.setAutoCommit(true);
