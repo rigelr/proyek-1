@@ -12,7 +12,7 @@ public class KoneksiDatabase {
     public static java.sql.Connection koneksiDB() {
         if(mysqlkonek==null){
             try {
-                String DB="jdbc:mysql://localhost:8080/robusto"; // fp_pbo database
+                String DB="jdbc:mysql://localhost:3306/robusto"; // fp_pbo database
                 String user="root"; // user database
                 String pass=""; // password database
                 DriverManager.registerDriver(new com.mysql.jdbc.Driver());

@@ -22,7 +22,7 @@ public class MenuDao {
 
     public List<MenuModel> getList() {
         String namaTable = "menu";
-        String query = "SELECT * FROM "+namaTable;
+        String query = "SELECT * FROM `menu` WHERE `deleted_status` = 0";
         MenuModel model;
         List<MenuModel> list = new ArrayList<>();
         try {
@@ -75,7 +75,7 @@ public class MenuDao {
     
     public MenuModel byId(int id ){
         String namaTable = "menu";
-        String query = "SELECT * FROM "+namaTable+" WHERE id = "+id;
+        String query = "SELECT * FROM "+namaTable+" WHERE `deleted_status` = 0 AND `id_menu`= "+id;
         MenuModel model = null;
         try {
             Statement preparedStatement = koneksiDatabase.createStatement();
@@ -99,16 +99,16 @@ public class MenuDao {
         }
     }
     
-     public boolean update(int id_menu, String nama, int harga, String desc,int stok,String kategori ,int deleted_status) {
+     public boolean update(int id_menu, String nama, int harga, 
+             String desc,int stok,String kategori, int deleted_status) {
        
-        String query= "update menu set"
-                + "id_menu='"+id_menu+"'"
-                + ",nama='"+nama+"'"
-                + ",harga='"+harga+"'"
-                + ",desc='"+desc+"'"
-                + ",stok='"+stok+"'"
-                + ",kategori='"+kategori+"'"
-                + " where id='"+id_menu+"'";
+        String query= "UPDATE `menu` SET "
+                + "`nama` = '"+nama+"', "
+                + "`harga` = '"+harga+"', "
+                + "`desc` = '"+desc+"', "
+                + "`stok` = '"+stok+"', "
+                + "`kategori` = '"+kategori+"' "
+                + "WHERE `menu`.`id_menu` = 1";
         try {
             PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(query);
             preparedStatement.execute();   
@@ -134,4 +134,19 @@ public class MenuDao {
             return false;
         }
     }
+     
+    public boolean delete(int id) {
+        String query = "UPDATE `menu` SET `deleted_status`= 1 WHERE `id_menu`="+id;
+        
+        try {
+            PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(query);
+            preparedStatement.execute();   
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+     
 }
