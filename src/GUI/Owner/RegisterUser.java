@@ -5,6 +5,13 @@
  */
 package GUI.Owner;
 
+import Dao.UserDao;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import model.UserModel;
+
 /**
  *
  * @author USER
@@ -124,7 +131,22 @@ public class RegisterUser extends javax.swing.JFrame {
     }//GEN-LAST:event_tfNamaUserActionPerformed
 
     private void btnSubmitDataUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitDataUserActionPerformed
-        // TODO add your handling code here:
+        UserModel user = new UserModel();
+        user.setNama(tfNamaUser.getText());
+        user.setUsername(tfUsername.getText());
+        if (tfPassword.getText().equals(tfPasswordConfirm.getText())) {
+            user.setPassword(tfPassword.getText());
+        
+        }
+        else if (!tfPassword.getText().equals(tfPasswordConfirm.getText())) {
+            JOptionPane.showMessageDialog(null,"confirm password tidak sama!");
+        }
+        UserDao dao = new UserDao();
+        try {
+            dao.insert(user);
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSubmitDataUserActionPerformed
 
     /**
