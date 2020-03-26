@@ -31,7 +31,7 @@ public class EditMenu extends javax.swing.JFrame {
     MenuDao dao;
     private Dimension layar;
     DefaultTableModel dtm;
-    MenuModel model = null;
+    MenuModel modelG = null;
     
     public EditMenu() {
         this.getContentPane().setBackground(Color.lightGray); 
@@ -111,7 +111,15 @@ public class EditMenu extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         JTBMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 JTBMenuMouseClicked(evt);
@@ -176,7 +184,7 @@ public class EditMenu extends javax.swing.JFrame {
                                             .addGap(77, 77, 77)
                                             .addComponent(JTHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(75, 75, 75)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 802, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(JBEdit)
                                 .addGap(130, 130, 130)
@@ -194,9 +202,6 @@ public class EditMenu extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -221,8 +226,12 @@ public class EditMenu extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JLDeskripsi)
-                            .addComponent(JTDeskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                            .addComponent(JTDeskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JBTambah)
                     .addComponent(JBHapus)
@@ -258,6 +267,7 @@ public class EditMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         String id = (String) JTBMenu.getValueAt(JTBMenu.getSelectedRow(), 0);
         MenuModel model = dao.byId(Integer.valueOf(id));
+        modelG=model;
         
         JLidMenu.setText(String.valueOf(model.getId_menu()));
         JTNama.setText(model.getNama());
@@ -269,7 +279,7 @@ public class EditMenu extends javax.swing.JFrame {
       
     }//GEN-LAST:event_JTBMenuMouseClicked
    
-    public void tampil_cust()
+    public void tampil_kategori()
     {
         try {
         Connection c = KoneksiDatabase.koneksiDB();
@@ -300,9 +310,10 @@ public class EditMenu extends javax.swing.JFrame {
             String desc = JTDeskripsi.getText();
             String kategori = this.JCBKategori.getSelectedItem().toString();
             
-        dao.update(id_menu,nama,harga,desc,stok,kategori,deleted_status);
+        dao.update(modelG.getId_menu(),nama,harga,desc,stok,kategori,deleted_status);
         tampilData();
-            JOptionPane.showMessageDialog(this, "Data berhasil diupdate");
+        JOptionPane.showMessageDialog(this, "Data berhasil diupdate");
+       
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "terjadi kesalahan "+ex.getMessage());
         }
@@ -318,8 +329,9 @@ public class EditMenu extends javax.swing.JFrame {
         try {
             int id_menu = Integer.parseInt(JLidMenu.getText());
             dao.delete(id_menu);
-            JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
             tampilData();
+            JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+            
 
         } catch (Exception e) {
 

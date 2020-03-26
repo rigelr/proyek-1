@@ -21,7 +21,6 @@ public class MenuDao {
     }
 
     public List<MenuModel> getList() {
-        String namaTable = "menu";
         String query = "SELECT * FROM `menu` WHERE `deleted_status` = 0";
         MenuModel model;
         List<MenuModel> list = new ArrayList<>();
