@@ -5,6 +5,20 @@
  */
 package GUI.Owner;
 
+import Model.MenuModel;
+import config.KoneksiDatabase;
+import dao.MenuDao;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Acer Swift 3
@@ -14,8 +28,20 @@ public class EditMenu extends javax.swing.JFrame {
     /**
      * Creates new form EditMenu
      */
+    MenuDao dao;
+    private Dimension layar;
+    DefaultTableModel dtm;
+    MenuModel modelG = null;
+    
     public EditMenu() {
+        this.getContentPane().setBackground(Color.lightGray); 
         initComponents();
+        dao = new MenuDao();
+        tampilData();
+        //Agar posisi form diTengah :
+        layar = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((layar.width / 2) - (getSize().width / 2),
+        (layar.height / 2) - (getSize().height / 2));
     }
 
     /**
@@ -28,30 +54,28 @@ public class EditMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLidMenu = new javax.swing.JLabel();
         JLNama = new javax.swing.JLabel();
         JLHarga = new javax.swing.JLabel();
         JLStok = new javax.swing.JLabel();
         JLKategori = new javax.swing.JLabel();
         JLDeskripsi = new javax.swing.JLabel();
-        JTIdMenu = new javax.swing.JTextField();
         JTNama = new javax.swing.JTextField();
         JTHarga = new javax.swing.JTextField();
         JTStok = new javax.swing.JTextField();
         JTDeskripsi = new javax.swing.JTextField();
         JCBKategori = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        JTBCust = new javax.swing.JTable();
+        JTBMenu = new javax.swing.JTable();
         JBEdit = new javax.swing.JButton();
         JBHapus = new javax.swing.JButton();
         JBTambah = new javax.swing.JButton();
+        JLNama1 = new javax.swing.JLabel();
+        JLidMenu = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Data Menu Makanan dan Minuman");
-
-        jLidMenu.setText("ID Menu");
 
         JLNama.setText("Nama");
 
@@ -63,21 +87,21 @@ public class EditMenu extends javax.swing.JFrame {
 
         JLDeskripsi.setText("Deskripsi");
 
-        JTIdMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTIdMenuActionPerformed(evt);
-            }
-        });
-
         JTStok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JTStokActionPerformed(evt);
             }
         });
 
-        JCBKategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        JCBKategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Minuman", "Makanan", "Snack" }));
+        JCBKategori.setSelectedIndex(-1);
+        JCBKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JCBKategoriActionPerformed(evt);
+            }
+        });
 
-        JTBCust.setModel(new javax.swing.table.DefaultTableModel(
+        JTBMenu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -87,19 +111,41 @@ public class EditMenu extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
-        JTBCust.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JTBCustMouseClicked(evt);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(JTBCust);
+        JTBMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JTBMenuMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(JTBMenu);
 
         JBEdit.setText("Edit");
+        JBEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBEditActionPerformed(evt);
+            }
+        });
 
         JBHapus.setText("Hapus");
+        JBHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBHapusActionPerformed(evt);
+            }
+        });
 
         JBTambah.setText("Tambah");
+
+        JLNama1.setText("ID Menu");
+
+        JLidMenu.setText("ID Menu");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,28 +163,28 @@ public class EditMenu extends javax.swing.JFrame {
                                         .addGap(57, 57, 57)
                                         .addComponent(JTDeskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(JLHarga)
-                                        .addGap(77, 77, 77)
-                                        .addComponent(JTHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(jLidMenu)
-                                            .addGap(66, 66, 66)
-                                            .addComponent(JTIdMenu))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(JLNama)
-                                            .addGap(78, 78, 78)
-                                            .addComponent(JTNama, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(JLStok)
                                             .addComponent(JLKategori))
                                         .addGap(63, 63, 63)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(JTStok)
-                                            .addComponent(JCBKategori, 0, 149, Short.MAX_VALUE))))
+                                            .addComponent(JCBKategori, 0, 149, Short.MAX_VALUE)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(JLNama1)
+                                            .addGap(66, 66, 66)
+                                            .addComponent(JLidMenu)
+                                            .addGap(116, 116, 116))
+                                        .addComponent(JLNama, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(JTNama, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(JLHarga)
+                                            .addGap(77, 77, 77)
+                                            .addComponent(JTHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(75, 75, 75)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 802, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(JBEdit)
                                 .addGap(130, 130, 130)
@@ -148,23 +194,23 @@ public class EditMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(241, 241, 241)
                         .addComponent(jLabel1)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLidMenu)
-                            .addComponent(JTIdMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JLNama)
-                            .addComponent(JTNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(JLNama1)
+                            .addComponent(JLidMenu))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(JTNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JLNama))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(JLHarga)
@@ -180,9 +226,12 @@ public class EditMenu extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JLDeskripsi)
-                            .addComponent(JTDeskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                            .addComponent(JTDeskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JBTambah)
                     .addComponent(JBHapus)
@@ -197,14 +246,99 @@ public class EditMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_JTStokActionPerformed
 
-    private void JTIdMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTIdMenuActionPerformed
+    private void tampilData(){
+        String[] kolom={ "Id Menu","Kategori","Nama Menu","Harga","Stok","Deskripsi"};
+        dtm = new DefaultTableModel(null,kolom);
+        for(MenuModel model : dao.getList()){
+            String[] row = new String[6];
+            row[0]= String.valueOf(model.getId_menu());
+            row[1]=model.getNama();
+            row[2]=model.getKategori();
+            row[3]=String.valueOf(model.getHarga());
+            row[4]=String.valueOf(model.getStok());
+            row[5]=model.getDesc();
+            
+            dtm.addRow(row);
+        }
+        JTBMenu.setModel(dtm);
+        JTBMenu.clearSelection();
+    }
+    private void JTBMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTBMenuMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_JTIdMenuActionPerformed
-
-    private void JTBCustMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTBCustMouseClicked
-        // TODO add your handling code here:
+        String id = (String) JTBMenu.getValueAt(JTBMenu.getSelectedRow(), 0);
+        MenuModel model = dao.byId(Integer.valueOf(id));
+        modelG=model;
+        
+        JLidMenu.setText(String.valueOf(model.getId_menu()));
+        JTNama.setText(model.getNama());
+        JTHarga.setText(String.valueOf(model.getHarga()));
+        JTStok.setText(String.valueOf(model.getStok()));
+        JCBKategori.setSelectedItem(model.getKategori());
+        JTDeskripsi.setText(model.getDesc());
+        
       
-    }//GEN-LAST:event_JTBCustMouseClicked
+    }//GEN-LAST:event_JTBMenuMouseClicked
+   
+    public void tampil_kategori()
+    {
+        try {
+        Connection c = KoneksiDatabase.koneksiDB();
+        Statement s = c.createStatement();
+        String sql = "select kategori from menu";  
+        ResultSet res = s.executeQuery(sql);
+        
+        while(res.next()){
+            Object[] ob = new Object[4];
+            ob[0]=  res.getString(1);//id
+            
+            JCBKategori.addItem(ob[0]);
+        }
+        res.close(); s.close();
+         
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }              
+    }
+    private void JBEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBEditActionPerformed
+        // TODO add your handling code here:
+        try {
+            int id_menu = Integer.parseInt(JLidMenu.getText());
+            int harga = Integer.parseInt(JTHarga.getText());
+            int stok = Integer.parseInt(JTStok.getText());
+            int deleted_status =0;
+            String nama = JTNama.getText();
+            String desc = JTDeskripsi.getText();
+            String kategori = this.JCBKategori.getSelectedItem().toString();
+            
+        dao.update(modelG.getId_menu(),nama,harga,desc,stok,kategori,deleted_status);
+        tampilData();
+        JOptionPane.showMessageDialog(this, "Data berhasil diupdate");
+       
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "terjadi kesalahan "+ex.getMessage());
+        }
+        
+    }//GEN-LAST:event_JBEditActionPerformed
+
+    private void JCBKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCBKategoriActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JCBKategoriActionPerformed
+
+    private void JBHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBHapusActionPerformed
+        // TODO add your handling code here:
+        try {
+            int id_menu = Integer.parseInt(JLidMenu.getText());
+            dao.delete(id_menu);
+            tampilData();
+            JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+            
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(this, "terjadi kesalahan " + e.getMessage());
+
+        }
+    }//GEN-LAST:event_JBHapusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,15 +384,15 @@ public class EditMenu extends javax.swing.JFrame {
     private javax.swing.JLabel JLHarga;
     private javax.swing.JLabel JLKategori;
     private javax.swing.JLabel JLNama;
+    private javax.swing.JLabel JLNama1;
     private javax.swing.JLabel JLStok;
-    private javax.swing.JTable JTBCust;
+    private javax.swing.JLabel JLidMenu;
+    private javax.swing.JTable JTBMenu;
     private javax.swing.JTextField JTDeskripsi;
     private javax.swing.JTextField JTHarga;
-    private javax.swing.JTextField JTIdMenu;
     private javax.swing.JTextField JTNama;
     private javax.swing.JTextField JTStok;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLidMenu;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

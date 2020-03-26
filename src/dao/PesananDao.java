@@ -30,7 +30,7 @@ public class PesananDao {
     
      public List<PesananModel> getList() {
         String namaTable = "pesanan";
-        String query = "SELECT * FROM "+namaTable;
+        String query = "SELECT * FROM `pesanan` WHERE `deleted_status` = 0";
         PesananModel model;
         List<PesananModel> list = new ArrayList<>();
         try {
@@ -55,7 +55,7 @@ public class PesananDao {
      
     public PesananModel byId(int id){
         String namaTable = "pesanan";
-        String query = "SELECT * FROM "+namaTable+" WHERE id = "+id;
+        String query = "SELECT * FROM "+namaTable+" WHERE id = "+id+" AND `deleted_status = 0";
         PesananModel model = null;
         try {
             Statement preparedStatement = koneksiDatabase.createStatement();
@@ -79,15 +79,30 @@ public class PesananDao {
     
     
     
-    public boolean update(int jumlah, int id_pesanan, int id_menu, String id_transaksi, int deleted_status) {
-        String namaTable = "pesanan";
+    public boolean update(int id) {
+        PesananModel model = new PesananModel();
         String query= "update pesanan set"
-                + " id_pesanan='"+id_pesanan+"'"
-                + ",jumlah='"+jumlah+"'"
-                + ",menu_id_menu='"+id_menu+"'"
-                + ",transaksi_idtransaksi='"+id_transaksi+"'"
-                + ",deleted_status='"+deleted_status+"'"
-                + " where id='"+id_pesanan+"'";
+                + " id_pesanan='"+model.getId_pesanan()+"'"
+                + ",jumlah='"+model.getJumlah()+"'"
+                + ",menu_id_menu='"+model.getMenu_id_menu()+"'"
+                + ",transaksi_idtransaksi='"+model.getTransaksi_idtransaksi()+"'"
+                + " where id='"+id+"'";
+        try {
+            PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(query);
+            preparedStatement.execute();   
+            return true;
+        } catch (SQLException ex) {
+            
+        
+            Logger.getLogger(PesananDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public boolean delete(int id) {
+        PesananModel model = new PesananModel();
+        String query= "UPDATE `pesanan` SET `deleted_status`= 1"
+                + " where id='"+id+"'";
         try {
             PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(query);
             preparedStatement.execute();   
@@ -102,13 +117,25 @@ public class PesananDao {
     
     public boolean insert(int jumlah, int id_pesanan, int id_menu, String id_transaksi, int deleted_status) {
         String namaTable = "pesanan";
+        PesananModel model = new PesananModel();
+        String queryId = "SELECT MAX(id_pesanan) + 1 FROM pesanan";
         String query = "INSERT INTO "+namaTable+" (`id_pesanan`, `jumlah`, `menu_id_menu`, `transaksi_idtransaksi`, `deleted_status`) VALUES "
-                + "('"+id_pesanan+"', '"+jumlah+"','"+id_menu+"', '"+id_transaksi+"','"+deleted_status+"');";
+                + "('"+model.getIdNow()+"', '"+model.getJumlah()+"','"+model.getMenu_id_menu()+"', '"+model.getTransaksi_idtransaksi()+"','"+model.getDeleted_status()+"');";
                 
-        
         try {
-            PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(query);
-            preparedStatement.execute();   
+            //get id
+            Statement preparedStatement = koneksiDatabase.createStatement();
+            ResultSet hasilQuery = preparedStatement.executeQuery(queryId);
+            
+                model.setMenu_id_menu(hasilQuery.getInt("menu_id_menu"));
+            while(hasilQuery.next()){
+                model = new PesananModel();
+                model.setIdNow(hasilQuery.getInt(id_pesanan));
+                
+            }
+            //insert data
+            PreparedStatement preparedStatement1 = koneksiDatabase.prepareStatement(query);
+            preparedStatement1.execute();   
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(PesananDao.class.getName()).log(Level.SEVERE, null, ex);
