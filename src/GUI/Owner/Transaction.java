@@ -1,5 +1,12 @@
 package GUI.Owner;
 
+import config.KoneksiDatabase;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user
@@ -9,9 +16,64 @@ public class Transaction extends javax.swing.JFrame {
     /**
      * Creates new form Transaction
      */
+     DefaultTableModel dtm;
     public Transaction() {
         initComponents();
+         dtm=new DefaultTableModel(){
+             //instance table model
+            @Override
+            public boolean isCellEditable(int row, int column) {
+               //all cells false
+               return false;
+            }
+             };
+         
+        jTTransaction.setModel(dtm);
+        
+        dtm.addColumn("Idtransaksi");
+        dtm.addColumn("Id Customer");
+        dtm.addColumn("Id Motor");
+        dtm.addColumn("tanggal pesan");
+        dtm.addColumn("tanggal kembali");
+        dtm.addColumn("total hari ");
+        AmbilDataTransaksi();
+        
     }
+     public void AmbilDataTransaksi() {
+        //Menghapus Seluruh Data
+        dtm.getDataVector().removeAllElements();
+        //Memberitahu bahwa data kosong
+        dtm.fireTableDataChanged();
+        
+        try {
+            //Memanggil koneksi :
+            Connection c=KoneksiDatabase.koneksiDB();
+            //Membaca perintah SQL static di JAVA :
+            Statement st=c.createStatement();
+            //Perintah QUERY :
+            String sql = "SELECT * FROM transaksi";
+            //Menjalankan perintah Query :
+            ResultSet rs=st.executeQuery(sql);
+            
+            while (rs.next()) {
+                Object[] o=new Object[6];
+                o[0]=rs.getString("idtransaksi");
+                o[1]=rs.getString("nama_cust");
+                o[2]=rs.getString("no_meja");
+                o[3]=rs.getString("total_harga");
+                o[4]=rs.getString("waktu");
+                o[5]=rs.getString("user_iduser");
+                dtm.addRow(o);
+            }
+            rs.close();
+            st.close();
+            
+        } catch (SQLException e) {
+            System.out.println("Terjadi Error dalam pengambilan data"+e);
+        }
+        
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
