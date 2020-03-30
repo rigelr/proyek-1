@@ -17,5 +17,4 @@ public interface UserInterface {
     void update (UserModel user) throws SQLException;
     void delete (UserModel user) throws SQLException;
     
-    
 }
