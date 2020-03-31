@@ -47,7 +47,7 @@ public class UserDao implements UserInterface{
             }
             return list;
         } catch (SQLException e){
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE,null,e);
+            java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE,null,e);
             return null;
         }
     }
@@ -69,7 +69,7 @@ public class UserDao implements UserInterface{
             }
             return user;
         } catch (SQLException e){
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE,null,e);
+            java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE,null,e);
             return null;
         }
     }
@@ -86,7 +86,7 @@ public class UserDao implements UserInterface{
                 Statement preparedStatement = koneksiDatabase.createStatement();
                 preparedStatement.executeQuery(SQL_INSERT);
             } catch(SQLException e){
-                Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
+                java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
             }
     }
     
@@ -98,7 +98,7 @@ public class UserDao implements UserInterface{
             PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(SQL_UPDATE);
             preparedStatement.executeQuery();
         } catch(SQLException e){
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
+            java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
         }               
     }
     
@@ -110,7 +110,7 @@ public class UserDao implements UserInterface{
             PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(SQL_DELETE);
             preparedStatement.executeQuery();
         } catch(SQLException e){
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
+            java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
         }         
     }
     
