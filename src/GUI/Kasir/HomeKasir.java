@@ -5,17 +5,19 @@
  */
 package GUI.Kasir;
 
+
+import dao.MenuDao;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.UIManager;
@@ -65,11 +67,22 @@ public class HomeKasir extends javax.swing.JFrame {
         compsToExperiment.setPreferredSize(new Dimension((int)(buttonSize.getWidth() * 2.5)+maxGap,
                 (int)(buttonSize.getHeight() * 3.5)+maxGap * 2));
         
+        // ambil data dari dao
+        MenuDao menu = new MenuDao();
+        menu.getList().stream().forEach((model) -> {
+            JButton x = new JButton(model.getNama());
+            compsToExperiment.add(x);
+            x.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new DetailTransaction(model.getId_menu()).show();
+             
+                }
+            });
+        });
+        
         //Add buttons to experiment with Grid Layout
-        compsToExperiment.add(new JButton("kopi"));
-        compsToExperiment.add(new JButton("kopi susu"));
-        compsToExperiment.add(new JButton("fried rixe"));
-        compsToExperiment.add(new JButton("pancake"));
         //compsToExperiment.add(new JButton("5"));
         
         //Add controls to set up horizontal and vertical gaps
@@ -114,7 +127,10 @@ public class HomeKasir extends javax.swing.JFrame {
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+//        Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
+//        frame.setSize(layar);
     }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -195,4 +211,6 @@ public class HomeKasir extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    
 }
