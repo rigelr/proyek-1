@@ -76,9 +76,9 @@ public class UserDao implements UserInterface{
 //        LocalDateTime now = LocalDateTime.now();
 //        String IdUser = String.valueOf(dtf.format(now));
             int idUser = maxId()+1;
-
+            String idUsernow = String.valueOf(idUser);
             String SQL_INSERT = "INSERT INTO `user` (`iduser`, `username`, `password`, `level`, `nama`, `deleted_status`)"
-                    +" VALUES ('"+idUser+"', "+user.getUsername()+", "+user.getPassword()+","+user.getLevel()+","+user.getNama()+", '0')";
+                    +" VALUES ('"+idUsernow+"', "+user.getUsername()+", "+user.getPassword()+","+user.getLevel()+","+user.getNama()+", '0')";
             try{
                 PreparedStatement PreparedInsert = koneksiDatabase.prepareStatement(SQL_INSERT);
                 PreparedInsert.executeUpdate();
@@ -115,12 +115,12 @@ public class UserDao implements UserInterface{
     public int maxId(){
         int maxId = 0;
         try {
-            String SQL_MAXID = "SELECT MAX(id_pesanan) + 1 FROM pesanan";
+            String SQL_MAXID = "SELECT MAX(iduser)as Max FROM `user`";
      
             PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(SQL_MAXID);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                maxId = rs.getInt(1);
+                maxId = Integer.parseInt(rs.getString("Max"));
             }
             
         } catch (SQLException ex) {
