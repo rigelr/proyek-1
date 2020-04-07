@@ -1,3 +1,4 @@
+
 package model;
 
 public class UserModel {
@@ -37,7 +38,7 @@ public class UserModel {
         this.nama = nama;
     }
 
-    public int getDeleted_status() {
+    public int isDeleted_status() {
         return deleted_status;
     }
 
@@ -45,7 +46,6 @@ public class UserModel {
         this.deleted_status = deleted_status;
     }
 
-    
     public int getLevel() {
         return level;
     }
