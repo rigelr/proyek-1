@@ -1,5 +1,13 @@
 package GUI.Owner;
 
+import Dao.UserDao;
+import Model.MenuModel;
+import dao.MenuDao;
+import java.awt.Dimension;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.UserModel;
+
 /**
  *
  * @author user
@@ -9,8 +17,27 @@ public class ManageUser extends javax.swing.JFrame {
     /**
      * Creates new form User
      */
+    UserDao dao;
+    DefaultTableModel dtm;
+    UserModel modelG = null;
     public ManageUser() {
         initComponents();
+        dao = new UserDao();
+        tampilData();
+    }
+    private void tampilData(){
+        String[] kolom={ "Id User","username","Nama "};
+        dtm = new DefaultTableModel(null,kolom);
+        for(UserModel model : dao.getList()){
+            String[] row = new String[3];
+            row[0]=model.getIduser();
+            row[1]=model.getUsername();
+            row[2]=model.getNama();
+            
+            dtm.addRow(row);
+        }
+        jTUser.setModel(dtm);
+        jTUser.clearSelection();
     }
 
     /**
@@ -22,6 +49,7 @@ public class ManageUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        menuModel1 = new Model.MenuModel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTFnama = new javax.swing.JTextField();
@@ -30,6 +58,8 @@ public class ManageUser extends javax.swing.JFrame {
         jTUser = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jBDelete = new javax.swing.JButton();
+        JLid = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,11 +78,25 @@ public class ManageUser extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTUserMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTUser);
 
         jLabel4.setText("User");
 
         jBDelete.setText("Delete");
+        jBDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDeleteActionPerformed(evt);
+            }
+        });
+
+        JLid.setText("id");
+
+        jLabel3.setText("ID User");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,16 +107,22 @@ public class ManageUser extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jTFUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                        .addComponent(jTFnama))
+                                    .addGap(37, 37, 37))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jBDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jTFUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                                    .addComponent(jTFnama))
-                                .addGap(37, 37, 37))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jBDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(JLid, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(244, 244, 244)
@@ -82,12 +132,18 @@ public class ManageUser extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4)
+                        .addGap(32, 32, 32)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(JLid)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTFnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -95,7 +151,7 @@ public class ManageUser extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(jTFUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jBDelete)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
@@ -103,6 +159,36 @@ public class ManageUser extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTUserMouseClicked
+        // TODO add your handling code here:
+        String id = (String) jTUser.getValueAt(jTUser.getSelectedRow(), 0);
+        UserModel model = dao.byId(id);
+        modelG=model;
+        
+        JLid.setText(model.getIduser());
+        jTFUsername.setText(model.getUsername());
+        jTFnama.setText(model.getNama());
+    }//GEN-LAST:event_jTUserMouseClicked
+
+    private void jBDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDeleteActionPerformed
+        // TODO add your handling code here:
+        try {
+            int id_user =Integer.parseInt( JLid.getText());
+            dao.delete(id_user);
+            tampilData();
+            JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+            tampilData();
+            
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "terjadi kesalahan " + e.getMessage());
+
+        }
+    }//GEN-LAST:event_jBDeleteActionPerformed
+
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -140,13 +226,16 @@ public class ManageUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel JLid;
     private javax.swing.JButton jBDelete;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTFUsername;
     private javax.swing.JTextField jTFnama;
     private javax.swing.JTable jTUser;
+    private Model.MenuModel menuModel1;
     // End of variables declaration//GEN-END:variables
 }
