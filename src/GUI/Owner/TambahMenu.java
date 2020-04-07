@@ -5,6 +5,18 @@
  */
 package GUI.Owner;
 
+import Model.MenuModel;
+import config.KoneksiDatabase;
+import dao.MenuDao;
+import dao.PesananDao;
+import dao.TransaksiDao;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Acer Swift 3
@@ -14,8 +26,13 @@ public class TambahMenu extends javax.swing.JFrame {
     /**
      * Creates new form TambahMenu
      */
+    MenuModel model = new MenuModel();
+    MenuDao dao = new MenuDao();
+     private final Connection koneksiDatabase;
     public TambahMenu() {
         initComponents();
+        this.koneksiDatabase = KoneksiDatabase.koneksiDB();
+        FindIdMax();
     }
 
     /**
@@ -56,7 +73,7 @@ public class TambahMenu extends javax.swing.JFrame {
 
         JLNama.setText("Nama");
 
-        JCBKategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        JCBKategori.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Makanan", "Minuman", "Snack" }));
 
         JLHarga.setText("Harga");
 
@@ -64,6 +81,11 @@ public class TambahMenu extends javax.swing.JFrame {
         jLabel1.setText("TAMBAH MENU");
 
         JBTambah.setText("Tambah Data");
+        JBTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBTambahActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,10 +155,48 @@ public class TambahMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public boolean FindIdMax(){
+       String queryId = "SELECT MAX(id_menu) + 1 FROM menu AS newId_menu"; 
+        try {
+            Statement preparedStatement = koneksiDatabase.createStatement();
+            ResultSet hasilQuery = preparedStatement.executeQuery(queryId);
+            
+            while(hasilQuery.next()){
+                model.setIdNow(hasilQuery.getInt("MAX(id_menu) + 1"));
+            }
+            
+            
+            return true;
+            
+        } catch (Exception ex) {
+            Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
     private void JTStokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTStokActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JTStokActionPerformed
+
+    private void JBTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBTambahActionPerformed
+        // TODO add your handling code here:
+        
+        
+        model.setNama(JTNama.getText());
+        model.setHarga(Integer.parseInt(JTHarga.getText()));
+        model.setStok(Integer.parseInt(JTStok.getText()));
+        model.setKategori((String) JCBKategori.getSelectedItem());
+        model.setDesc(JTDeskripsi.getText());
+        model.setDeleted_status(0);
+        
+        try {
+            dao.insert(model);
+            JOptionPane.showMessageDialog(this, "Data berhasil ditambah");
+        new Home().show();
+         this.dispose();
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(this, "Gagal Menambah Data");
+        }
+    }//GEN-LAST:event_JBTambahActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,4 +247,6 @@ public class TambahMenu extends javax.swing.JFrame {
     private javax.swing.JTextField JTStok;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+    
 }
