@@ -2,7 +2,7 @@ package model;
 
 public class UserModel {
     String iduser,username,password,nama;
-    boolean deleted_status;
+    int deleted_status;
     int level;
 
     public String getIduser() {
@@ -37,11 +37,11 @@ public class UserModel {
         this.nama = nama;
     }
 
-    public boolean isDeleted_status() {
+    public int isDeleted_status() {
         return deleted_status;
     }
 
-    public void setDeleted_status(boolean deleted_status) {
+    public void setDeleted_status(int deleted_status) {
         this.deleted_status = deleted_status;
     }
 
