@@ -1,35 +1,30 @@
 package Dao;
 
-import com.sun.istack.internal.logging.Logger;
+import config.KoneksiDatabase;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+//import java.time.LocalDateTime;
+//import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.UserModel;
 
 public class UserDao implements UserInterface{
     UserModel user;
     
-    private String SQL_GETALL = "SELECT * FROM user WHERE deleted_status = 0";
-    private String SQL_GETBYID = "SELECT * FROM user WHERE deleted_status = 0 AND WHERE iduser = " + user.getIduser();
-    
     private final Connection koneksiDatabase;
     
-    public UserDao(Connection koneksiDatabase){
-        this.koneksiDatabase = koneksiDatabase;
-    }
-    
     public UserDao(){
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.koneksiDatabase = KoneksiDatabase.koneksiDB();
     }
     
     public List<UserModel> getList(){
+        String SQL_GETALL = "SELECT * FROM user WHERE deleted_status = 0";
         List<UserModel> list = new ArrayList<>();
         try{
             Statement preparedStatement = koneksiDatabase.createStatement();
@@ -53,6 +48,7 @@ public class UserDao implements UserInterface{
     }
     
     public UserModel byId(int id){
+        String SQL_GETBYID = "SELECT * FROM user WHERE deleted_status = 0 AND WHERE iduser = " + user.getIduser();
         user.setIduser(String.valueOf(id));
         try{
             Statement preparedStatement = koneksiDatabase.createStatement();
@@ -76,15 +72,17 @@ public class UserDao implements UserInterface{
     
     @Override
     public void insert(UserModel user) throws SQLException {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        LocalDateTime now = LocalDateTime.now();
-        String IdUser = String.valueOf(dtf.format(now));
-        String SQL_INSERT = "INSERT INTO user ('iduser', 'username', 'password', 'level', 'nama', 'deleted_status') "
-                + "VALUES("+IdUser+","+user.getUsername()+","+user.getPassword()+","+"1"+user.getNama()+"0"+")";
-        
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+//        LocalDateTime now = LocalDateTime.now();
+//        String IdUser = String.valueOf(dtf.format(now));
+            int idUser = maxId()+1;
+
+            String SQL_INSERT = "INSERT INTO `user` (`iduser`, `username`, `password`, `level`, `nama`, `deleted_status`)"
+                    +" VALUES ('"+idUser+"', "+user.getUsername()+", "+user.getPassword()+","+user.getLevel()+","+user.getNama()+", '0')";
             try{
-                Statement preparedStatement = koneksiDatabase.createStatement();
-                preparedStatement.executeQuery(SQL_INSERT);
+                PreparedStatement PreparedInsert = koneksiDatabase.prepareStatement(SQL_INSERT);
+                PreparedInsert.executeUpdate();
+               
             } catch(SQLException e){
                 java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
             }
@@ -112,6 +110,23 @@ public class UserDao implements UserInterface{
         } catch(SQLException e){
             java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
         }         
+    }
+    
+    public int maxId(){
+        int maxId = 0;
+        try {
+            String SQL_MAXID = "SELECT MAX(id_pesanan) + 1 FROM pesanan";
+     
+            PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(SQL_MAXID);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                maxId = rs.getInt(1);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return maxId;
     }
     
    

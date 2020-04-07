@@ -132,21 +132,22 @@ public class RegisterUser extends javax.swing.JFrame {
 
     private void btnSubmitDataUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitDataUserActionPerformed
         UserModel user = new UserModel();
+        UserDao dao = new UserDao();
         user.setNama(tfNamaUser.getText());
         user.setUsername(tfUsername.getText());
         if (tfPassword.getText().equals(tfPasswordConfirm.getText())) {
             user.setPassword(tfPassword.getText());
-        
+            try {
+            dao.insert(user);
+            } catch (SQLException ex) {
+            Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else if (!tfPassword.getText().equals(tfPasswordConfirm.getText())) {
             JOptionPane.showMessageDialog(null,"confirm password tidak sama!");
         }
-        UserDao dao = new UserDao();
-        try {
-            dao.insert(user);
-        } catch (SQLException ex) {
-            Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        
     }//GEN-LAST:event_btnSubmitDataUserActionPerformed
 
     /**
