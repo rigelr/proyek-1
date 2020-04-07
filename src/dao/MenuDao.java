@@ -1,6 +1,5 @@
 package dao;
 
-import Model.MenuModel;
 import config.KoneksiDatabase;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Model.MenuModel;
 import java.sql.PreparedStatement;
+
 
 public class MenuDao {
      private final Connection koneksiDatabase;
@@ -41,7 +41,7 @@ public class MenuDao {
             }            
             return list;
         } catch (SQLException ex) {
-            Logger.getLogger(PesananDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -67,7 +67,7 @@ public class MenuDao {
             }            
             return model;
         } catch (SQLException ex) {
-            Logger.getLogger(PesananDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -93,7 +93,7 @@ public class MenuDao {
             }            
             return model;
         } catch (SQLException ex) {
-            Logger.getLogger(PesananDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -107,7 +107,7 @@ public class MenuDao {
                 + "`desc` = '"+desc+"', "
                 + "`stok` = '"+stok+"', "
                 + "`kategori` = '"+kategori+"' "
-                + "WHERE `menu`.`id_menu` = 1";
+                + "WHERE `menu`.`id_menu` = "+id_menu;
         try {
             PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(query);
             preparedStatement.execute();   
@@ -115,21 +115,33 @@ public class MenuDao {
         } catch (SQLException ex) {
             
         
-            Logger.getLogger(PesananDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
      
-     public boolean insert(int id_menu, String nama, int harga, String desc,int stok,String kategori ,int deleted_status) {
+     public boolean insert(MenuModel model) {
         String namaTable = "menu";
-        String query = "INSERT INTO "+namaTable+" (`id_menu`, `nama`, `harga`, `desc`, `stok`,`kategori`,`deleted_status`) VALUES "
-                + "('"+id_menu+"', '"+nama+"','"+harga+"', '"+desc+"', '"+stok+"','"+kategori+"','"+deleted_status+"');";
+        //String queryId = "SELECT MAX(id_menu) + 1 FROM menu";
+        
         try {
-            PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(query);
-            preparedStatement.execute();   
+//            //get id
+//            Statement preparedStatement = koneksiDatabase.createStatement();
+//            ResultSet hasilQuery = preparedStatement.executeQuery(queryId);
+//            
+//               // model.setId_menu(hasilQuery.getInt("id_menu"));
+//            while(hasilQuery.next()){
+//                model = new MenuModel();
+//                model.setIdNow(hasilQuery.getInt(model.getIdNow()));
+//                
+//            }
+            String query = "INSERT INTO "+namaTable+" (`id_menu`, `nama`, `harga`, `desc`, `stok`,`kategori`,`deleted_status`) VALUES "
+                + "('"+model.getIdNow()+"', '"+model.getNama()+"','"+model.getHarga()+"', '"+model.getDesc()+"', '"+model.getStok()+"','"+model.getKategori()+"','"+model.getDeleted_status()+"');";
+            PreparedStatement preparedStatement2 = koneksiDatabase.prepareStatement(query);
+            preparedStatement2.execute();   
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(PesananDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
