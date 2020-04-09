@@ -20,14 +20,23 @@ public class ManageUser extends javax.swing.JFrame {
     UserDao dao;
     DefaultTableModel dtm;
     UserModel modelG = null;
+    String[]  kolom;
     public ManageUser() {
         initComponents();
         dao = new UserDao();
+        
         tampilData();
     }
     private void tampilData(){
         String[] kolom={ "Id User","username","Nama "};
-        dtm = new DefaultTableModel(null,kolom);
+          dtm = new DefaultTableModel(null,kolom){
+              @Override
+            public boolean isCellEditable(int row, int column) {
+               //all cells false
+               return false;
+            }
+             };
+          
         for(UserModel model : dao.getList()){
             String[] row = new String[3];
             row[0]=model.getIduser();
@@ -52,14 +61,14 @@ public class ManageUser extends javax.swing.JFrame {
         menuModel1 = new Model.MenuModel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTFnama = new javax.swing.JTextField();
-        jTFUsername = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTUser = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jBDelete = new javax.swing.JButton();
         JLid = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jTFnama = new javax.swing.JLabel();
+        jTFUsername = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,6 +107,10 @@ public class ManageUser extends javax.swing.JFrame {
 
         jLabel3.setText("ID User");
 
+        jTFnama.setText("Nama");
+
+        jTFUsername.setText("Username");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,27 +120,20 @@ public class ManageUser extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jTFUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                                        .addComponent(jTFnama))
-                                    .addGap(37, 37, 37))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jBDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(JLid, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addComponent(jLabel3)
+                                .addComponent(JLid, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTFnama, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTFUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2)
+                                .addComponent(jBDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(244, 244, 244)
                         .addComponent(jLabel4)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,13 +151,13 @@ public class ManageUser extends javax.swing.JFrame {
                         .addComponent(JLid)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
+                        .addGap(13, 13, 13)
+                        .addComponent(jTFnama, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTFUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTFUsername)
+                        .addGap(34, 34, 34)
                         .addComponent(jBDelete)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
@@ -173,11 +179,11 @@ public class ManageUser extends javax.swing.JFrame {
     private void jBDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDeleteActionPerformed
         // TODO add your handling code here:
         try {
-            int id_user =Integer.parseInt( JLid.getText());
+            String id_user = JLid.getText();
             dao.delete(id_user);
             tampilData();
             JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
-            tampilData();
+           tampilData();
             
 
         } catch (Exception e) {
@@ -233,8 +239,8 @@ public class ManageUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTFUsername;
-    private javax.swing.JTextField jTFnama;
+    private javax.swing.JLabel jTFUsername;
+    private javax.swing.JLabel jTFnama;
     private javax.swing.JTable jTUser;
     private Model.MenuModel menuModel1;
     // End of variables declaration//GEN-END:variables
