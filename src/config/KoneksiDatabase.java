@@ -12,9 +12,9 @@ public class KoneksiDatabase {
     public static java.sql.Connection koneksiDB() {
         if(mysqlkonek==null){
             try {
-                String DB="jdbc:mysql://localhost:3306/robusto"; // fp_pbo database
-                String user="root"; // user database
-                String pass=""; // password database
+                String DB="jdbc:mysql://www.remotemysql.com:3306/1Hu4AvcfUp"; // fp_pbo database
+                String user="1Hu4AvcfUp"; // user database
+                String pass="ZFKGkixsoy"; // password database
                 DriverManager.registerDriver(new com.mysql.jdbc.Driver());
                 mysqlkonek = (java.sql.Connection) DriverManager.getConnection(DB,user,pass);
             } catch (SQLException e) {
