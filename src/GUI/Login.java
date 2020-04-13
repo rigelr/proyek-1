@@ -1,5 +1,12 @@
 package GUI;
 
+import GUI.Owner.EditMenu;
+import GUI.Owner.Home;
+import config.KoneksiDatabase;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author user
@@ -30,6 +37,11 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jBLogin.setText("Login");
+        jBLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jBLoginMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("Login");
 
@@ -69,6 +81,35 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBLoginMouseClicked
+        // TODO add your handling code here:
+         try {
+            Statement statement = (Statement) KoneksiDatabase.koneksiDB().createStatement();
+            ResultSet result=statement.executeQuery("select * from user where username='" + jTFUsername.getText() 
+                    + "' and password= '"+jTFPassword.getText()+"' and deleted_status = 0");
+            if (result.next()) {
+                if ("1".equals(result.getString("level"))) {
+                           new Home().show();
+                             this.dispose(); 
+                }else if("2".equals(result.getString("level"))){
+                         new EditMenu().show();
+                             this.dispose(); 
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Password salah");
+                    jTFPassword.setText("");
+                    jTFUsername.requestFocus();
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "User tidak ditemukan");
+                jTFUsername.setText("");
+                jTFPassword.setText("");
+                jTFUsername.requestFocus();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "gagal");
+        }
+    }//GEN-LAST:event_jBLoginMouseClicked
 
     /**
      * @param args the command line arguments
