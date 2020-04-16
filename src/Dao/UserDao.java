@@ -17,6 +17,7 @@ import model.UserModel;
 public class UserDao implements UserInterface{
     UserModel user;
     
+    
     private final Connection koneksiDatabase;
     
     public UserDao(){

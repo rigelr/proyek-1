@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class PesananDao {
     
      public List<PesananModel> getList() {
         String namaTable = "pesanan";
-        String query = "SELECT * FROM "+namaTable+ "WHERE `deleted_status` = 0";
+        String query = "SELECT * FROM `pesanan` WHERE `deleted_status` = 0";
         PesananModel model;
         List<PesananModel> list = new ArrayList<>();
         try {
@@ -115,8 +116,9 @@ public class PesananDao {
         }
     }
     
-    public boolean insert(PesananModel model) {
+    public boolean insert(int jumlah, int id_pesanan, int id_menu, String id_transaksi, int deleted_status) {
         String namaTable = "pesanan";
+        PesananModel model = new PesananModel();
         String queryId = "SELECT MAX(id_pesanan) + 1 FROM pesanan";
         String query = "INSERT INTO "+namaTable+" (`id_pesanan`, `jumlah`, `menu_id_menu`, `transaksi_idtransaksi`, `deleted_status`) VALUES "
                 + "('"+model.getIdNow()+"', '"+model.getJumlah()+"','"+model.getMenu_id_menu()+"', '"+model.getTransaksi_idtransaksi()+"','"+model.getDeleted_status()+"');";
@@ -129,7 +131,7 @@ public class PesananDao {
                 model.setMenu_id_menu(hasilQuery.getInt("menu_id_menu"));
             while(hasilQuery.next()){
                 model = new PesananModel();
-                model.setIdNow(hasilQuery.getInt(model.getIdNow()));
+                model.setIdNow(hasilQuery.getInt(id_pesanan));
                 
             }
             //insert data

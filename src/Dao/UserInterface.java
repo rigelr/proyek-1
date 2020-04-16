@@ -12,6 +12,7 @@ import model.UserModel;
  *
  * @author USER
  */
+
 public interface UserInterface {
     void insert (UserModel user) throws SQLException;
     void update (UserModel user) throws SQLException;
