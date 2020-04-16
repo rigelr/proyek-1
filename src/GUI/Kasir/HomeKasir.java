@@ -12,12 +12,12 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.UIManager;
@@ -70,6 +70,7 @@ public class HomeKasir extends javax.swing.JFrame {
         // ambil data dari dao
         MenuDao menu = new MenuDao();
         menu.getList().stream().forEach((model) -> {
+            //JLabel l = new JLabel(null); //icon di set dari model getImage(belom ada)
             JButton x = new JButton(model.getNama());
             compsToExperiment.add(x);
             x.addActionListener(new ActionListener() {
