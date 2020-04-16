@@ -15,6 +15,6 @@ import model.UserModel;
 public interface UserInterface {
     void insert (UserModel user) throws SQLException;
     void update (UserModel user) throws SQLException;
-    void delete (UserModel user) throws SQLException;
+    void delete (String id) throws SQLException;
     
 }

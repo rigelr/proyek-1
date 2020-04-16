@@ -6,8 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-//import java.time.LocalDateTime;
-//import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -47,7 +47,7 @@ public class UserDao implements UserInterface{
         }
     }
     
-    public UserModel byId(int id){
+    public UserModel byId(String id){
         String SQL_GETBYID = "SELECT * FROM user WHERE deleted_status = 0 AND WHERE iduser = " + user.getIduser();
         user.setIduser(String.valueOf(id));
         try{
@@ -72,13 +72,11 @@ public class UserDao implements UserInterface{
     
     @Override
     public void insert(UserModel user) throws SQLException {
-//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-//        LocalDateTime now = LocalDateTime.now();
-//        String IdUser = String.valueOf(dtf.format(now));
-            int idUser = maxId()+1;
-            String idUsernow = String.valueOf(idUser);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+        LocalDateTime now = LocalDateTime.now();
+        String IdUser = String.valueOf(dtf.format(now));
             String SQL_INSERT = "INSERT INTO `user` (`iduser`, `username`, `password`, `level`, `nama`, `deleted_status`)"
-                    +" VALUES ('"+idUsernow+"', "+user.getUsername()+", "+user.getPassword()+","+user.getLevel()+","+user.getNama()+", '0')";
+                    +" VALUES (`" +IdUser+"`, `"+user.getUsername()+"`, `"+user.getPassword()+"`,`"+user.getLevel()+"`,`"+user.getNama()+"`, `0`);";
             try{
                 PreparedStatement PreparedInsert = koneksiDatabase.prepareStatement(SQL_INSERT);
                 PreparedInsert.executeUpdate();
@@ -94,40 +92,41 @@ public class UserDao implements UserInterface{
         
         try{
             PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(SQL_UPDATE);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
         } catch(SQLException e){
             java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
         }               
     }
     
+
     @Override
-    public void delete(UserModel user) throws SQLException{
-        String SQL_DELETE = "UPDATE user SET deleted_status = 1 WHERE 'iduser' = "+user.getIduser();
+    public void delete(String id) throws SQLException{
+        String SQL_DELETE = "UPDATE user SET deleted_status = 1 WHERE 'iduser' = "+id;
         
         try{
             PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(SQL_DELETE);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
         } catch(SQLException e){
             java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
         }         
     }
     
-    public int maxId(){
-        int maxId = 0;
-        try {
-            String SQL_MAXID = "SELECT MAX(iduser)as Max FROM `user`";
-     
-            PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(SQL_MAXID);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                maxId = Integer.parseInt(rs.getString("Max"));
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return maxId;
-    }
-    
+//    public int maxId(){
+//        int maxId = 0;
+//        try {
+//            String SQL_MAXID = "SELECT MAX(iduser)as Max FROM `user`";
+//     
+//            PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(SQL_MAXID);
+//            ResultSet rs = preparedStatement.executeQuery();
+//            if (rs.next()) {
+//                maxId = Integer.parseInt(rs.getString("Max"));
+//            }
+//            
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return maxId;
+//    }
+//    
    
 }
