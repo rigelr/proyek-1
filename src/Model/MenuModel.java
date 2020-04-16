@@ -1,8 +1,19 @@
 package Model;
 
 public class MenuModel {
- int id_menu,harga,stok,deleted_status;
+ int id_menu,harga,stok,deleted_status,idNow;
+ 
  String nama,desc,kategori;
+
+    public int getIdNow() {
+        return idNow;
+    }
+
+    public void setIdNow(int idNow) {
+        this.idNow = idNow;
+    }
+ 
+ 
 
     public int getId_menu() {
         return id_menu;
@@ -56,6 +67,8 @@ public class MenuModel {
         return kategori;
     }
 
+    
+    
     public void setKategori(String kategori) {
         this.kategori = kategori;
     }

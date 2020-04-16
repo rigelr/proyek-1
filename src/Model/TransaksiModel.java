@@ -2,8 +2,17 @@ package Model;
 
 public class TransaksiModel {
  String nama_cust,no_meja,idtransaksi,iduser,waktu;
- int total_harga;
+ int total_harga,deleted_status;
 
+    public int getDeleted_status() {
+        return deleted_status;
+    }
+
+    public void setDeleted_status(int deleted_status) {
+        this.deleted_status = deleted_status;
+    }
+ 
+    
     public String getNama_cust() {
         return nama_cust;
     }
