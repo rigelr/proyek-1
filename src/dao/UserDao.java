@@ -1,4 +1,4 @@
-package dao;
+package Dao;
 
 import config.KoneksiDatabase;
 import java.sql.Connection;
