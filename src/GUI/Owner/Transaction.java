@@ -1,6 +1,7 @@
 package GUI.Owner;
 
 import config.KoneksiDatabase;
+import dao.TransaksiDao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,8 @@ public class Transaction extends javax.swing.JFrame {
      * Creates new form Transaction
      */
      DefaultTableModel dtm;
+          TransaksiDao dao;
+
     public Transaction() {
         initComponents();
          dtm=new DefaultTableModel(){
@@ -30,12 +33,11 @@ public class Transaction extends javax.swing.JFrame {
          
         jTTransaction.setModel(dtm);
         
-        dtm.addColumn("Idtransaksi");
-        dtm.addColumn("Id Customer");
-        dtm.addColumn("Id Motor");
-        dtm.addColumn("tanggal pesan");
-        dtm.addColumn("tanggal kembali");
-        dtm.addColumn("total hari ");
+        dtm.addColumn("Id transaksi");
+        dtm.addColumn("tanggal Transaksi");
+        dtm.addColumn("Nama Customer");
+        dtm.addColumn("NO.Meja");
+        dtm.addColumn("Total Harga ");
         AmbilDataTransaksi();
         
     }
@@ -58,10 +60,10 @@ public class Transaction extends javax.swing.JFrame {
             while (rs.next()) {
                 Object[] o=new Object[6];
                 o[0]=rs.getString("idtransaksi");
-                o[1]=rs.getString("nama_cust");
-                o[2]=rs.getString("no_meja");
-                o[3]=rs.getString("total_harga");
-                o[4]=rs.getString("waktu");
+                o[1]=rs.getString("waktu");
+                o[2]=rs.getString("nama_cust");
+                o[3]=rs.getString("no_meja");
+                o[4]=rs.getString("total_harga");
                 o[5]=rs.getString("user_iduser");
                 dtm.addRow(o);
             }
@@ -111,6 +113,11 @@ public class Transaction extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTTransaction);
 
         jBSearch.setText("Search");
+        jBSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSearchActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("TRANSACTION");
 
@@ -155,6 +162,11 @@ public class Transaction extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSearchActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jBSearchActionPerformed
 
     /**
      * @param args the command line arguments
