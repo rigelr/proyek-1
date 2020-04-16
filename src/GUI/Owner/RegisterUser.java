@@ -142,6 +142,7 @@ public class RegisterUser extends javax.swing.JFrame {
             } catch (SQLException ex) {
             Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
             }
+            JOptionPane.showMessageDialog(null, "User telah berhasil ditambahkan");
         }
         else if (!tfPassword.getText().equals(tfPasswordConfirm.getText())) {
             JOptionPane.showMessageDialog(null,"confirm password tidak sama!");
