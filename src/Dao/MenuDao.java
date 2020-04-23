@@ -39,6 +39,7 @@ public class MenuDao {
                 model.setStok(hasilQuery.getInt("stok"));
                 model.setKategori(hasilQuery.getString("kategori"));
                 model.setDeleted_status(hasilQuery.getInt("deleted_status"));
+                model.setFoto(hasilQuery.getString("foto"));
                 list.add(model);
             }            
             return list;
@@ -65,6 +66,7 @@ public class MenuDao {
                 model.setStok(hasilQuery.getInt("stok"));
                 model.setKategori(hasilQuery.getString("kategori"));
                 model.setDeleted_status(hasilQuery.getInt("deleted_status"));
+                model.setFoto(hasilQuery.getString("foto"));
                 
             }            
             return model;
@@ -91,6 +93,7 @@ public class MenuDao {
                 model.setStok(hasilQuery.getInt("stok"));
                 model.setKategori(hasilQuery.getString("kategori"));
                 model.setDeleted_status(hasilQuery.getInt("deleted_status"));
+                model.setFoto(hasilQuery.getString("foto"));
                 
             }            
             return model;
@@ -101,14 +104,15 @@ public class MenuDao {
     }
     
      public boolean update(int id_menu, String nama, int harga, 
-             String desc,int stok,String kategori, int deleted_status) {
+             String desc,int stok,String kategori, int deleted_status,String foto) {
        
         String query= "UPDATE `menu` SET "
                 + "`nama` = '"+nama+"', "
                 + "`harga` = '"+harga+"', "
                 + "`desc` = '"+desc+"', "
                 + "`stok` = '"+stok+"', "
-                + "`kategori` = '"+kategori+"' "
+                + "`kategori` = '"+kategori+"', "
+                + "`foto` = '"+foto+"'"
                 + "WHERE `menu`.`id_menu` = "+id_menu;
         try {
             PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(query);
@@ -137,8 +141,8 @@ public class MenuDao {
 //                model.setIdNow(hasilQuery.getInt(model.getIdNow()));
 //                
 //            }
-            String query = "INSERT INTO "+namaTable+" (`id_menu`, `nama`, `harga`, `desc`, `stok`,`kategori`,`deleted_status`) VALUES "
-                + "('"+model.getIdNow()+"', '"+model.getNama()+"','"+model.getHarga()+"', '"+model.getDesc()+"', '"+model.getStok()+"','"+model.getKategori()+"','"+model.getDeleted_status()+"');";
+            String query = "INSERT INTO "+namaTable+" (`id_menu`, `nama`, `harga`, `desc`, `stok`,`kategori`,`deleted_status`,`foto`) VALUES "
+                + "('"+model.getIdNow()+"', '"+model.getNama()+"','"+model.getHarga()+"', '"+model.getDesc()+"', '"+model.getStok()+"','"+model.getKategori()+"','"+model.getDeleted_status()+"','"+model.getFoto()+"');";
             PreparedStatement preparedStatement2 = koneksiDatabase.prepareStatement(query);
             preparedStatement2.execute();   
             return true;
