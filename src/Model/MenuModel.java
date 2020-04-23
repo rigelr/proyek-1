@@ -3,7 +3,15 @@ package Model;
 public class MenuModel {
  int id_menu,harga,stok,deleted_status,idNow;
  
- String nama,desc,kategori;
+ String nama,desc,kategori,foto;
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
     public int getIdNow() {
         return idNow;
@@ -67,8 +75,6 @@ public class MenuModel {
         return kategori;
     }
 
-    
-    
     public void setKategori(String kategori) {
         this.kategori = kategori;
     }
