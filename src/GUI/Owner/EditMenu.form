@@ -27,13 +27,24 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="JBEdit" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
+                              <Component id="JBHapus" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="826" max="-2" attributes="0"/>
+                              <Component id="JBTambah" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="JLDeskripsi" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                                      <Component id="JTDeskripsi" min="-2" pref="157" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="JLNama1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+                                          <Component id="JLidMenu" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="191" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="JLNama" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -47,15 +58,6 @@
                                       </Group>
                                   </Group>
                                   <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="JLNama1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                                          <Component id="JLidMenu" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="JLNama" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                       <Component id="JTNama" min="-2" pref="149" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="JLHarga" min="-2" max="-2" attributes="0"/>
@@ -63,16 +65,22 @@
                                           <Component id="JTHarga" min="-2" pref="149" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <Component id="JLFoto" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="JLDeskripsi" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="JTDeskripsi" min="-2" pref="157" max="-2" attributes="0"/>
+                                          <Component id="JLFotoPlacement" min="-2" pref="168" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="216" max="-2" attributes="0"/>
+                                      <Component id="JBBrowse" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" pref="802" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="JBEdit" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
-                              <Component id="JBHapus" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="JBTambah" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -81,7 +89,7 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace pref="48" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -90,9 +98,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="JLNama1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="JLidMenu" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -122,12 +130,24 @@
                           <Component id="JLDeskripsi" min="-2" max="-2" attributes="0"/>
                           <Component id="JTDeskripsi" min="-2" pref="71" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="JLFoto" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="192" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                              <Component id="JLFotoPlacement" min="-2" pref="102" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="JBBrowse" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="44" max="32767" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="346" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane1" min="-2" pref="523" max="-2" attributes="0"/>
+                      <EmptySpace pref="52" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -283,6 +303,24 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="ID Menu"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="JLFoto">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Foto"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="JLFotoPlacement">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="img"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="JBBrowse">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Browse Image"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JBBrowseActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
