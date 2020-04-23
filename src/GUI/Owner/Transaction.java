@@ -1,12 +1,17 @@
 package GUI.Owner;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import config.KoneksiDatabase;
 import dao.TransaksiDao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -20,8 +25,11 @@ public class Transaction extends javax.swing.JFrame {
      DefaultTableModel dtm;
           TransaksiDao dao;
 
+         
+
     public Transaction() {
         initComponents();
+           
          dtm=new DefaultTableModel(){
              //instance table model
             @Override
@@ -38,9 +46,12 @@ public class Transaction extends javax.swing.JFrame {
         dtm.addColumn("Nama Customer");
         dtm.addColumn("NO.Meja");
         dtm.addColumn("Total Harga ");
+        dtm.addColumn("kasir");
         AmbilDataTransaksi();
         
     }
+   
+    
      public void AmbilDataTransaksi() {
         //Menghapus Seluruh Data
         dtm.getDataVector().removeAllElements();
@@ -53,7 +64,48 @@ public class Transaction extends javax.swing.JFrame {
             //Membaca perintah SQL static di JAVA :
             Statement st=c.createStatement();
             //Perintah QUERY :
-            String sql = "SELECT * FROM transaksi";
+          
+
+            String sql = "SELECT  idtransaksi,waktu,nama_cust,no_meja,total_harga,nama FROM transaksi INNER JOIN user ON user_iduser=iduser;;";
+            //Menjalankan perintah Query :
+            ResultSet rs=st.executeQuery(sql);
+            
+            while (rs.next()) {
+                Object[] o=new Object[6];
+                o[0]=rs.getString("idtransaksi");
+                o[1]=rs.getString("waktu");
+                o[2]=rs.getString("nama_cust");
+                o[3]=rs.getString("no_meja");
+                o[4]=rs.getString("total_harga");
+                o[5]=rs.getString("nama");
+                dtm.addRow(o);
+            }
+            rs.close();
+            st.close();
+            
+        } catch (SQLException e) {
+            System.out.println("Terjadi Error dalam pengambilan data"+e);
+        }
+        
+    }
+     public void AmbilDataTransaksibyDate() {
+        //Menghapus Seluruh Data
+        dtm.getDataVector().removeAllElements();
+        //Memberitahu bahwa data kosong
+        dtm.fireTableDataChanged();
+        
+        try {
+            //Memanggil koneksi :
+            Connection c=KoneksiDatabase.koneksiDB();
+            //Membaca perintah SQL static di JAVA :
+            Statement st=c.createStatement();
+            //Perintah QUERY :
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd, hh:mm:ss");
+
+            String date = sdf.format(jDateChooser1.getDate());
+            String date2 = sdf.format(jDateChooser2.getDate());
+
+            String sql = "SELECT * FROM transaksi where waktu between '"+date+"' and '"+date2+"';";
             //Menjalankan perintah Query :
             ResultSet rs=st.executeQuery(sql);
             
@@ -86,14 +138,13 @@ public class Transaction extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jCalendar1 = new com.toedter.calendar.JCalendar();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTTransaction = new javax.swing.JTable();
         jBSearch = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jDCFrom = new com.toedter.calendar.JDateChooser();
-        jDCUntil = new com.toedter.calendar.JDateChooser();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,23 +177,23 @@ public class Transaction extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jDCFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(241, 241, 241)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jDCUntil, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jBSearch))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(37, Short.MAX_VALUE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)
+                                .addComponent(jBSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,11 +201,11 @@ public class Transaction extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBSearch)
-                    .addComponent(jDCFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDCUntil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jBSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
@@ -165,7 +216,7 @@ public class Transaction extends javax.swing.JFrame {
 
     private void jBSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSearchActionPerformed
         // TODO add your handling code here:
-        
+        AmbilDataTransaksibyDate();
     }//GEN-LAST:event_jBSearchActionPerformed
 
     /**
@@ -205,9 +256,8 @@ public class Transaction extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBSearch;
-    private com.toedter.calendar.JCalendar jCalendar1;
-    private com.toedter.calendar.JDateChooser jDCFrom;
-    private com.toedter.calendar.JDateChooser jDCUntil;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
