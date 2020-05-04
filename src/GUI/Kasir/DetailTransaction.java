@@ -1,18 +1,37 @@
 package GUI.Kasir;
 
+import Model.TransaksiModel;
+import dao.MenuDao;
+import dao.PesananDao;
+import java.util.ArrayList;
+import model.PesananModel;
+
 /**
  *
  * @author user
  */
 public class DetailTransaction extends javax.swing.JFrame {
+    MenuDao menu;
+    int idMenu;
+    ArrayList<PesananModel> pesanan= new ArrayList<>();
 
     /**
      * Creates new form DetailTransaction
      */
     public DetailTransaction() {
         initComponents();
+        
+        
     }
 
+    public DetailTransaction(int id) {
+        initComponents();
+        menu = new MenuDao();
+        jTFmenu.setText(menu.byId(id).getNama());
+        idMenu = menu.byId(id).getId_menu();
+    }
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +63,11 @@ public class DetailTransaction extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTAAdditional);
 
         jBOk.setText("save");
+        jBOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBOkActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,6 +110,22 @@ public class DetailTransaction extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOkActionPerformed
+       new ConfirmOrder().show();
+       int jumlah = Integer.parseInt(jSJumlah.getValue().toString()); //ambil nilai jumlah
+        //PesananDao dao = new PesananDao();
+        ArrayList<PesananModel> pesanan= new ArrayList<>();
+        //insert ke model -> kurang set id
+        PesananModel modelPesanan = new PesananModel();
+        modelPesanan.setJumlah(jumlah); 
+        modelPesanan.setMenu_id_menu(idMenu);
+        pesanan.add(modelPesanan);
+        pesanan.add(modelPesanan);
+       
+       //dao.insert(modelPesanan); ->insert di cart
+            
+    }//GEN-LAST:event_jBOkActionPerformed
 
     /**
      * @param args the command line arguments
