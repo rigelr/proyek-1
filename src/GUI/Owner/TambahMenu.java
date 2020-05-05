@@ -5,17 +5,27 @@
  */
 package GUI.Owner;
 
-import Model.MenuModel;
+import model.MenuModel;
 import config.KoneksiDatabase;
 import dao.MenuDao;
 import dao.PesananDao;
 import dao.TransaksiDao;
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -29,9 +39,11 @@ public class TambahMenu extends javax.swing.JFrame {
     MenuModel model = new MenuModel();
     MenuDao dao = new MenuDao();
      private final Connection koneksiDatabase;
+     String s;
     public TambahMenu() {
         initComponents();
         this.koneksiDatabase = KoneksiDatabase.koneksiDB();
+        
         FindIdMax();
     }
 
@@ -56,6 +68,9 @@ public class TambahMenu extends javax.swing.JFrame {
         JLHarga = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         JBTambah = new javax.swing.JButton();
+        JLFoto = new javax.swing.JLabel();
+        JLFotoPlacement = new javax.swing.JLabel();
+        JBBrowse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,20 +102,29 @@ public class TambahMenu extends javax.swing.JFrame {
             }
         });
 
+        JLFoto.setText("Foto");
+
+        JBBrowse.setText("Browse");
+        JBBrowse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBBrowseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(JBTambah)
+                .addGap(65, 65, 65))
             .addGroup(layout.createSequentialGroup()
                 .addGap(88, 88, 88)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(JLDeskripsi)
-                        .addGap(57, 57, 57)
-                        .addComponent(JTDeskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(JLHarga)
                         .addGap(77, 77, 77)
@@ -112,16 +136,20 @@ public class TambahMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JLStok)
-                            .addComponent(JLKategori))
-                        .addGap(63, 63, 63)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(JTStok)
-                            .addComponent(JCBKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(103, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(JBTambah)
-                .addGap(65, 65, 65))
+                            .addComponent(JLKategori)
+                            .addComponent(JLDeskripsi)
+                            .addComponent(JLFoto))
+                        .addGap(57, 57, 57)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JTDeskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(JLFotoPlacement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(JTStok, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JCBKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, 149, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JBBrowse)))))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,11 +172,16 @@ public class TambahMenu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JLKategori)
                     .addComponent(JCBKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JLFoto)
+                    .addComponent(JBBrowse)
+                    .addComponent(JLFotoPlacement, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JLDeskripsi)
                     .addComponent(JTDeskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addComponent(JBTambah)
                 .addGap(41, 41, 41))
         );
@@ -180,23 +213,82 @@ public class TambahMenu extends javax.swing.JFrame {
     private void JBTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBTambahActionPerformed
         // TODO add your handling code here:
         
-        
         model.setNama(JTNama.getText());
         model.setHarga(Integer.parseInt(JTHarga.getText()));
         model.setStok(Integer.parseInt(JTStok.getText()));
         model.setKategori((String) JCBKategori.getSelectedItem());
         model.setDesc(JTDeskripsi.getText());
         model.setDeleted_status(0);
-        
+        String namaTable = "menu";
         try {
-            dao.insert(model);
-            JOptionPane.showMessageDialog(this, "Data berhasil ditambah");
-        new Home().show();
-         this.dispose();
-        } catch (Exception e) {
-             JOptionPane.showMessageDialog(this, "Gagal Menambah Data");
+            
+          
+            PreparedStatement preparedStatement2 = koneksiDatabase.prepareStatement("INSERT INTO "+namaTable+" (`id_menu`, `nama`, `harga`, `desc`, `stok`,`kategori`,`deleted_status`,`foto`) VALUES "
+                + "(?, ?,?, ?, ?,?,?,?)");
+            InputStream is = new FileInputStream(new File(s));
+            
+            preparedStatement2.setInt(1, model.getIdNow());
+            preparedStatement2.setString(2, model.getNama());
+            preparedStatement2.setInt(3, model.getHarga());
+            preparedStatement2.setString(4, model.getDesc());
+            preparedStatement2.setInt(5, model.getStok());
+            preparedStatement2.setString(6, model.getKategori());
+            preparedStatement2.setInt(7, model.getDeleted_status());
+            preparedStatement2.setBlob(8,is);
+            
+            preparedStatement2.execute();   
+            JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
+           
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(TambahMenu.class.getName()).log(Level.SEVERE, null, ex);
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TambahMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+//        model.setNama(JTNama.getText());
+//        model.setHarga(Integer.parseInt(JTHarga.getText()));
+//        model.setStok(Integer.parseInt(JTStok.getText()));
+//        model.setKategori((String) JCBKategori.getSelectedItem());
+//        model.setDesc(JTDeskripsi.getText());
+//        model.setDeleted_status(0);
+//        
+//        try {
+//            dao.insert(model);
+//            JOptionPane.showMessageDialog(this, "Data berhasil ditambah");
+//        new Home().show();
+//         this.dispose();
+//        } catch (Exception e) {
+//             JOptionPane.showMessageDialog(this, "Gagal Menambah Data");
+//        }
     }//GEN-LAST:event_JBTambahActionPerformed
+
+     public ImageIcon ResizeImage(String imgPath){
+        ImageIcon MyImage = new ImageIcon(imgPath);
+        Image img = MyImage.getImage();
+        Image newImage = img.getScaledInstance(JLFotoPlacement.getWidth(), JLFotoPlacement.getHeight(),Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImage);
+        return image;
+    }
+     
+    private void JBBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBBrowseActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+         FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE", "jpg","gif","png");
+         fileChooser.addChoosableFileFilter(filter);
+         int result = fileChooser.showSaveDialog(null);
+         if(result == JFileChooser.APPROVE_OPTION){
+             File selectedFile = fileChooser.getSelectedFile();
+             String path = selectedFile.getAbsolutePath();
+             JLFotoPlacement.setIcon(ResizeImage(path));
+             s = path;
+              }
+         else if(result == JFileChooser.CANCEL_OPTION){
+             System.out.println("No Data");
+         }
+    }//GEN-LAST:event_JBBrowseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,9 +326,12 @@ public class TambahMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JBBrowse;
     private javax.swing.JButton JBTambah;
     private javax.swing.JComboBox JCBKategori;
     private javax.swing.JLabel JLDeskripsi;
+    private javax.swing.JLabel JLFoto;
+    private javax.swing.JLabel JLFotoPlacement;
     private javax.swing.JLabel JLHarga;
     private javax.swing.JLabel JLKategori;
     private javax.swing.JLabel JLNama;
