@@ -5,6 +5,9 @@ import Dao.MenuDao;
 import Dao.PesananDao;
 import java.util.ArrayList;
 import Model.PesananModel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -55,6 +58,8 @@ public class DetailTransaction extends javax.swing.JFrame {
         jLabel1.setText("Menu");
 
         jLabel2.setText("Jumlah");
+
+        jSJumlah.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         jLabel3.setText("Additional");
 
