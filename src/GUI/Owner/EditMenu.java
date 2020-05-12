@@ -33,10 +33,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import Model.TableModel;
 
-/**
- *
- * @author Acer Swift 3
- */
+
 public class EditMenu extends javax.swing.JFrame {
 
     /**
@@ -45,6 +42,7 @@ public class EditMenu extends javax.swing.JFrame {
     MenuDao dao;
     private Dimension layar;
     DefaultTableModel dtm;
+    MenuModel model = new MenuModel();
     MenuModel modelG = null;
     String s;
     private final Connection koneksiDatabase;
@@ -437,69 +435,48 @@ public class EditMenu extends javax.swing.JFrame {
     }
     private void JBEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBEditActionPerformed
         // TODO add your handling code here:
-        
-         try {
-            int id_menu = Integer.parseInt(JLidMenu.getText());
+        int id_menu = Integer.parseInt(JLidMenu.getText());
             int harga = Integer.parseInt(JTHarga.getText());
             int stok = Integer.parseInt(JTStok.getText());
             int deleted_status =0;
             String nama = JTNama.getText();
             String desc = JTDeskripsi.getText();
             String kategori = this.JCBKategori.getSelectedItem().toString();
-
-        dao.update(id_menu,nama,harga,desc,stok,kategori,deleted_status);
+            
+         //update without image
+            if(s==null){
+                try {
+                    dao.update(id_menu,nama,harga,desc,stok,kategori,deleted_status);
+        JOptionPane.showMessageDialog(this, "Data berhasil diupdate");
         tampilData();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "terjadi kesalahan "+ex.getMessage());
+                }
+            }
+            
+            //update with image
+            else{
+                try {
+                    PreparedStatement preparedStatement2 = koneksiDatabase.prepareStatement("UPDATE `menu` SET `nama`= ?, `harga`= ?, `desc`= ?, "
+                    + "`stok`= ?,`kategori`= ?,`deleted_status`= ?,`foto`= ? WHERE id_menu = "+id_menu);
+            InputStream is = new FileInputStream(new File(s));
+            
+            //preparedStatement2.setInt(1, id_menu);
+            preparedStatement2.setString(1, nama);
+            preparedStatement2.setInt(2, harga);
+            preparedStatement2.setString(3, desc);
+            preparedStatement2.setInt(4, stok);
+            preparedStatement2.setString(5, kategori);
+            preparedStatement2.setInt(6,deleted_status);
+            preparedStatement2.setBlob(7,is);
+            
+            preparedStatement2.executeUpdate();  
             JOptionPane.showMessageDialog(this, "Data berhasil diupdate");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "terjadi kesalahan "+ex.getMessage());
-        }
-//         
-//        try {
-//            modelG.setId_menu(Integer.parseInt(JLidMenu.getText()));
-//            modelG.setHarga(Integer.parseInt(JTHarga.getText())); 
-//            modelG.setStok(Integer.parseInt(JTStok.getText()));
-//            modelG.setDeleted_status(0);
-//            modelG.setNama(JTNama.getText());
-//            modelG.setDesc(JTDeskripsi.getText());
-//            modelG.setKategori(this.JCBKategori.getSelectedItem().toString());
-//            //modelG.setImage(Image);
-//            
-//            
-//            
-//        dao.update(modelG);
-//        tampilData();
-//        
-//       
-//        } catch (Exception ex) {
-//            JOptionPane.showMessageDialog(this, "terjadi kesalahan "+ex.getMessage());
-//        }
-//        String namaTable = "menu";
-//        MenuModel model = new MenuModel();
-//        try {
-//           PreparedStatement preparedStatement2 = koneksiDatabase.prepareStatement("INSERT INTO "+namaTable+" (`id_menu`, `nama`, `harga`, `desc`, `stok`,`kategori`,`deleted_status`,`foto`) VALUES "
-//                + "('?', '?','?', '?', '?','?','?','?');");
-//            InputStream is = new FileInputStream(new File(s));
-//            
-//            preparedStatement2.setInt(0, model.getId_menu());
-//            preparedStatement2.setString(1, model.getNama());
-//            preparedStatement2.setInt(2, model.getHarga());
-//            preparedStatement2.setString(3, model.getDesc());
-//            preparedStatement2.setInt(4, model.getStok());
-//            preparedStatement2.setString(5, model.getKategori());
-//            preparedStatement2.setInt(6, model.getDeleted_status());
-//            preparedStatement2.setBlob(7,is);
-//            
-//            preparedStatement2.executeUpdate();  
-//            JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
-//            tampilData();
-//            //return true;
-//        } catch (SQLException ex) {
-//            
-//            Logger.getLogger(EditMenu.class.getName()).log(Level.SEVERE, null, ex);
-//           // return false;
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(EditMenu.class.getName()).log(Level.SEVERE, null, ex);
-//        } 
+            tampilData();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "terjadi kesalahan "+ex.getMessage());
+                }
+            }
         
     }//GEN-LAST:event_JBEditActionPerformed
 
