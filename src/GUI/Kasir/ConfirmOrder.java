@@ -20,6 +20,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import Model.PesananModel;
+import Model.TempModel;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JSeparator;
 
 /**
  *
@@ -29,13 +34,13 @@ public class ConfirmOrder extends javax.swing.JFrame {
     
     //TODO buat contstuctor parameter pakai arraylist
 
-    private static void addAButton(String text, Container pane) {
+    private static void addAButton(String text,JPanel pane) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane.add(button);
     }
     
-     private static void addButtonDelete(Container parent, Container child) {
+     private static void addButtonDelete(JPanel parent, JPanel child) {
         JButton button = new JButton("X");
         //button.setAlignmentY(Component.CENTER_ALIGNMENT);
         button.setPreferredSize(new Dimension(38, 32));
@@ -51,14 +56,15 @@ public class ConfirmOrder extends javax.swing.JFrame {
 
 
      
-       private static void addLabelToPanel(String text, Container pane) {
+       private static void addLabelToPanel(String text, JPanel pane) {
         JLabel label = new JLabel(text);
         label.setAlignmentY(Component.CENTER_ALIGNMENT);
         pane.add(label);
     }
        
-         private static void addPhotoToPanel(Icon img, Container pane) {
-        JLabel label = new JLabel(img);
+        private static void addPhotoToPanel(byte[] img, JPanel pane) {
+        ImageIcon image = new ImageIcon(img);
+        JLabel label = new JLabel(image);
         label.setPreferredSize(new Dimension(34, 16));
         label.setAlignmentY(Component.CENTER_ALIGNMENT);
         pane.add(label);
@@ -72,45 +78,50 @@ public class ConfirmOrder extends javax.swing.JFrame {
         initComponents();
     }
     
-    public static void addComponentsToPane(Container pane) {
-        pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+    public static void addComponentsToPane(final Container pane) {
+        final JPanel content = new JPanel();
+        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         JPanel controls = new JPanel();
-        controls.setLayout(new GridLayout(2,3));
+        controls.setLayout(new GridLayout(0,2));
         JButton backToMenu = new JButton("Tambah Pesanan");
         JButton cetakNota = new JButton("Cetak Nota");
         
         
         //looping panel sesuai size pesanan(bisa pakai arraylist.size)
-       MenuDao dao = new MenuDao();
+        MenuDao dao = new MenuDao();
         
         ArrayList<PesananModel> pesanan= new ArrayList<>();
-        
+        TempModel temp = new TempModel();
+       
         pesanan.stream().map((pes) -> {
             String namaMenu = dao.getList().get(pes.getMenu_id_menu()).getNama();
             int hargasatu = dao.getList().get(pes.getMenu_id_menu()).getHarga();
+            byte[] foto = dao.getList().get(pes.getMenu_id_menu()).getImage();
             int jumlah = pes.getJumlah();
+            int hargaBayar = hargasatu * jumlah;
+            temp.setHargaBayar(temp.getHargaBayar()+hargaBayar);
             //String menu = dao.byId(pes.getMenu_id_menu()).getNama();
             JPanel panelPesanan = new JPanel();
-            //addPhotoToPanel(null, pane);
+            panelPesanan.setLayout(new FlowLayout());
+            addPhotoToPanel(foto, panelPesanan);
             addLabelToPanel(namaMenu, panelPesanan);//(set nama menu)
             addLabelToPanel(String.valueOf(jumlah), panelPesanan);
             addLabelToPanel(String.valueOf(hargasatu), panelPesanan);
             return panelPesanan;
         }).map((panelPesanan) -> {
-            addButtonDelete(pane,panelPesanan);
+            addButtonDelete(content,panelPesanan);
             return panelPesanan;
         }).forEach((panelPesanan) -> {
-            pane.add(panelPesanan);
+            content.add(panelPesanan);
         });
-
-//        addAButton("Pesanan1", pane);
-//        addAButton("pesanan2", pane);
-//        addAButton("pesanan3", pane);
          
         // add button for checkout and add pesanan
         controls.add(backToMenu);
         controls.add(cetakNota);
-        pane.add(controls);
+        
+        pane.add(content, BorderLayout.NORTH);
+        pane.add(new JSeparator(), BorderLayout.CENTER);
+        pane.add(controls, BorderLayout.SOUTH);
 
     }
     
