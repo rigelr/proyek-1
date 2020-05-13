@@ -14,6 +14,7 @@ import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -70,14 +71,17 @@ public class HomeKasir extends javax.swing.JFrame {
         // ambil data dari dao
         MenuDao menu = new MenuDao();
         menu.getList().stream().forEach((model) -> {
-            //JLabel l = new JLabel(null); //icon di set dari model getImage(belom ada)
+            ImageIcon image = new ImageIcon(model.getImage());
+            JLabel label = new JLabel(image);
+            label.setSize(150, 120);
             JButton x = new JButton(model.getNama());
+            compsToExperiment.add(label);
             compsToExperiment.add(x);
             x.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                  //  new DetailTransaction(model.getId_menu()).show();
+                    new DetailTransaction(model.getId_menu()).show();
              
                 }
             });
