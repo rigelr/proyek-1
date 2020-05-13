@@ -48,8 +48,8 @@ public class UserDao {
     }
     
     public UserModel byId(String id){
-        String SQL_GETBYID = "SELECT * FROM user WHERE deleted_status = 0 AND WHERE iduser = " + user.getIduser();
-        user.setIduser(String.valueOf(id));
+        String SQL_GETBYID = "SELECT * FROM user WHERE deleted_status = 0 AND  iduser = " + id;
+        //user.setIduser(String.valueOf(id));
         try{
             Statement preparedStatement = koneksiDatabase.createStatement();
             ResultSet result = preparedStatement.executeQuery(SQL_GETBYID);
@@ -98,11 +98,11 @@ public class UserDao {
     }
 
     public void delete(String id) throws SQLException{
-        String SQL_DELETE = "UPDATE user SET deleted_status = 1 WHERE 'iduser' = "+id;
+        String query = "UPDATE `user` SET `deleted_status` = 1 WHERE `iduser` = "+String.valueOf(id);
         
         try{
-            PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(SQL_DELETE);
-            preparedStatement.executeUpdate();
+            PreparedStatement preparedStatement = koneksiDatabase.prepareStatement(query);
+            preparedStatement.execute();
         } catch(SQLException e){
             java.util.logging.Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
         }         
@@ -125,5 +125,5 @@ public class UserDao {
 //        return maxId;
 //    }
 //    
-   
+
 }

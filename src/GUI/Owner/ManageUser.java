@@ -166,11 +166,28 @@ public class ManageUser extends javax.swing.JFrame {
 
     private void jTUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTUserMouseClicked
         // TODO add your handling code here:
+        
+//        int i = jTUser.getSelectedRow();
         String id = (String) jTUser.getValueAt(jTUser.getSelectedRow(), 0);
-        UserModel model = dao.byId(id);
+        UserModel model = dao.byId(String.valueOf(id));
         modelG=model;
         
-        JLid.setText(model.getIduser());
+        JLid.setText(String.valueOf(model.getIduser()));
+//        JTNama.setText(model.getNama());
+//        JTHarga.setText(String.valueOf(model.getHarga()));
+//        JTStok.setText(String.valueOf(model.getStok()));
+//        JCBKategori.setSelectedItem(model.getKategori());
+//        JTDeskripsi.setText(model.getDesc());
+//        
+//        String id = jTUser.getSelectedRow()+1;
+//        UserModel model = dao.byId(id);
+//        modelG=model;
+//        
+//         int i = JTBMenu.getSelectedRow()+1;
+//        MenuModel model = dao.byId(Integer.valueOf(i));
+//        modelG=model;
+        
+//        jLabel3.setText(model.getIduser());
         jTFUsername.setText(model.getUsername());
         jTFnama.setText(model.getNama());
     }//GEN-LAST:event_jTUserMouseClicked
