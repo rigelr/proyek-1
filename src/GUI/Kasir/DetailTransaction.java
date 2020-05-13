@@ -117,7 +117,7 @@ public class DetailTransaction extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOkActionPerformed
-       new ConfirmOrder().show();
+       
        int jumlah = Integer.parseInt(jSJumlah.getValue().toString()); //ambil nilai jumlah
         //PesananDao dao = new PesananDao();
         ArrayList<PesananModel> pesanan= new ArrayList<>();
@@ -126,10 +126,9 @@ public class DetailTransaction extends javax.swing.JFrame {
         modelPesanan.setJumlah(jumlah); 
         modelPesanan.setMenu_id_menu(idMenu);
         pesanan.add(modelPesanan);
-        pesanan.add(modelPesanan);
-       
+       new ConfirmOrder().show();
        //dao.insert(modelPesanan); ->insert di cart
-            
+          
     }//GEN-LAST:event_jBOkActionPerformed
 
     /**
