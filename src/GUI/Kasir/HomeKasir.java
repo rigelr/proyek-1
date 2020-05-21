@@ -51,7 +51,6 @@ public class HomeKasir extends javax.swing.JFrame {
     
     public HomeKasir() {
         initComponents();
-        
     }
     
     public void addComponentsToPane(final Container pane) {
