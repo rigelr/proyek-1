@@ -5,6 +5,9 @@
  */
 package GUI.Owner;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 /**
  *
  * @author Acer Swift 3
@@ -14,8 +17,13 @@ public class Home extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
+    private Dimension layar;
     public Home() {
         initComponents();
+         //Agar posisi form diTengah :
+        layar = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((layar.width / 2) - (getSize().width / 2),
+        (layar.height / 2) - (getSize().height / 2));
     }
 
     /**

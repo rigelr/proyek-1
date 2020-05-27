@@ -102,13 +102,7 @@ public class ManageUser extends javax.swing.JFrame {
             }
         });
 
-        JLid.setText("id");
-
         jLabel3.setText("ID User");
-
-        jTFnama.setText("Nama");
-
-        jTFUsername.setText("Username");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

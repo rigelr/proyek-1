@@ -131,9 +131,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="JLid">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="id"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -141,14 +138,8 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jTFnama">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Nama"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jTFUsername">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Username"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

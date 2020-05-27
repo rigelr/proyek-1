@@ -10,7 +10,9 @@ import config.KoneksiDatabase;
 import Dao.MenuDao;
 import Dao.PesananDao;
 import Dao.TransaksiDao;
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,6 +40,8 @@ public class TambahMenu extends javax.swing.JFrame {
      */
     MenuModel model = new MenuModel();
     MenuDao dao = new MenuDao();
+    
+     private Dimension layar;
      private final Connection koneksiDatabase;
      String s;
     public TambahMenu() {
@@ -45,6 +49,10 @@ public class TambahMenu extends javax.swing.JFrame {
         this.koneksiDatabase = KoneksiDatabase.koneksiDB();
         
         FindIdMax();
+        //Agar posisi form diTengah :
+        layar = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((layar.width / 2) - (getSize().width / 2),
+        (layar.height / 2) - (getSize().height / 2));
     }
 
     /**

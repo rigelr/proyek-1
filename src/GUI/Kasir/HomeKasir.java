@@ -12,6 +12,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -35,12 +36,18 @@ public class HomeKasir extends javax.swing.JFrame {
     final static int maxGap = 20;
     JComboBox horGapComboBox;
     JComboBox verGapComboBox;
+     private Dimension layar;
     JButton applyButton = new JButton("Apply gaps");
     GridLayout experimentLayout = new GridLayout(0,2);
     
     public HomeKasir(String name){
         super(name);
         setResizable(true);
+         //Agar posisi form diTengah :
+        layar = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((layar.width / 2) - (getSize().width / 2),
+        (layar.height / 2) - (getSize().height / 2));
+        
         
     }
     

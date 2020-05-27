@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Model.UserModel;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  *
@@ -21,8 +23,13 @@ public class RegisterUser extends javax.swing.JFrame {
     /**
      * Creates new form RegisterUser
      */
+    private Dimension layar;
     public RegisterUser() {
         initComponents();
+        //Agar posisi form diTengah :
+        layar = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((layar.width / 2) - (getSize().width / 2),
+        (layar.height / 2) - (getSize().height / 2));
     }
 
     /**
