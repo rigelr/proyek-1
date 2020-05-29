@@ -10,6 +10,7 @@ import config.KoneksiDatabase;
 import Dao.MenuDao;
 import Dao.PesananDao;
 import Dao.TransaksiDao;
+import GUI.Kasir.HomeKasir;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -79,6 +80,7 @@ public class TambahMenu extends javax.swing.JFrame {
         JLFoto = new javax.swing.JLabel();
         JLFotoPlacement = new javax.swing.JLabel();
         JBBrowse = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,6 +121,13 @@ public class TambahMenu extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Home");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,7 +141,9 @@ public class TambahMenu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
-                        .addComponent(jLabel1))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(JLHarga)
                         .addGap(77, 77, 77)
@@ -157,13 +168,18 @@ public class TambahMenu extends javax.swing.JFrame {
                                     .addComponent(JCBKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, 149, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(JBBrowse)))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)))
                 .addGap(81, 81, 81)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JLNama)
@@ -246,6 +262,9 @@ public class TambahMenu extends javax.swing.JFrame {
             
             preparedStatement2.execute();   
             JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
+            
+             new EditMenu().show();
+             this.dispose(); 
            
            
         } catch (SQLException ex) {
@@ -298,6 +317,12 @@ public class TambahMenu extends javax.swing.JFrame {
          }
     }//GEN-LAST:event_JBBrowseActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new Home().show();
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -348,6 +373,7 @@ public class TambahMenu extends javax.swing.JFrame {
     private javax.swing.JTextField JTHarga;
     private javax.swing.JTextField JTNama;
     private javax.swing.JTextField JTStok;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
