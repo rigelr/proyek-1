@@ -9,6 +9,14 @@ public class MenuModel {
 
     public MenuModel() {
     }
+
+    public MenuModel(String nama, String desc, int harga, int stok, byte [] image){
+        this.nama=nama;
+        this.desc=desc;
+        this.harga=harga;
+        this.stok=stok;
+        this.Image=image;
+    }
   
   
 

@@ -1,4 +1,4 @@
-package GUI.Kasir;
+    package GUI.Kasir;
 
 import Model.TransaksiModel;
 import Dao.MenuDao;
