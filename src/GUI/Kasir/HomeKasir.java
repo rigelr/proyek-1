@@ -11,9 +11,12 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -56,28 +59,40 @@ public class HomeKasir extends javax.swing.JFrame {
     public void addComponentsToPane(final Container pane) {
         initGaps();
         final JPanel compsToExperiment = new JPanel();
-        compsToExperiment.setLayout(experimentLayout);
+        compsToExperiment.setLayout(new GridLayout(0,2));
         JPanel controls = new JPanel();
         controls.setLayout(new GridLayout(2,3));
-        
+        JButton cartBtn = new JButton("Selesai menambah Menu");
+        //JPanel kategoriPnl = new JPanel
         //Set up components preferred size
         JButton b = new JButton("Just fake button");
         Dimension buttonSize = b.getPreferredSize();
         compsToExperiment.setPreferredSize(new Dimension((int)(buttonSize.getWidth() * 2.5)+maxGap,
-                (int)(buttonSize.getHeight() * 3.5)+maxGap * 2));
-        
+                600+maxGap * 2));
+       
         // ambil data dari dao
         MenuDao menu = new MenuDao();
         menu.getList().stream().forEach((model) -> {
-            //JLabel l = new JLabel(null); //icon di set dari model getImage(belom ada)
+            ImageIcon image = new ImageIcon(model.getImage());
+            Image img = image.getImage();
+            Image newImage = img.getScaledInstance(150, 100, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon fixImg = new ImageIcon(newImage);
+            JLabel label = new JLabel(fixImg);
+            //label.setSize(150, 100);
             JButton x = new JButton(model.getNama());
-            compsToExperiment.add(x);
+            JPanel menuPnl  = new JPanel();
+            menuPnl.setSize(200, 600);
+            menuPnl.setLayout(new BoxLayout(menuPnl, BoxLayout.Y_AXIS));
+            menuPnl.add(label);
+            menuPnl.add(x);
+//            compsToExperiment.add(label);
+//            compsToExperiment.add(x);
+            compsToExperiment.add(menuPnl);
             x.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     new DetailTransaction(model.getId_menu()).show();
-             
                 }
             });
         });
@@ -92,6 +107,14 @@ public class HomeKasir extends javax.swing.JFrame {
         controls.add(horGapComboBox);
         controls.add(verGapComboBox);
         controls.add(applyButton);
+        
+        // cart button
+        cartBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ConfirmOrder().show();
+            }
+        });
         
         //Process the Apply gaps button press
         applyButton.addActionListener(new ActionListener(){
@@ -108,9 +131,11 @@ public class HomeKasir extends javax.swing.JFrame {
                 experimentLayout.layoutContainer(compsToExperiment);
             }
         });
-        pane.add(compsToExperiment, BorderLayout.NORTH);
-        pane.add(new JSeparator(), BorderLayout.CENTER);
-        pane.add(controls, BorderLayout.SOUTH);
+        //pane.add
+        pane.add(compsToExperiment, BorderLayout.CENTER);
+        //pane.add(new JSeparator(), BorderLayout.CENTER);
+        pane.add(cartBtn, BorderLayout.PAGE_END);
+        //pane.add(controls, BorderLayout.SOUTH);
     }
     
     /**
