@@ -76,7 +76,7 @@ public class HomeKasir extends javax.swing.JFrame {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                  //  new DetailTransaction(model.getId_menu()).show();
+                    new DetailTransaction(model.getId_menu()).show();
              
                 }
             });
