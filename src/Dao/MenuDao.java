@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Model.MenuModel;
+import java.sql.DriverManager;
 
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
@@ -54,11 +55,16 @@ public class MenuDao {
             return null;
         }
     }
+     
+     
+     
     
-    public MenuModel byKategori(String kategori ){
+    public ArrayList<MenuModel> byKategori(){
         String namaTable = "menu";
-        String query = "SELECT * FROM "+namaTable+" WHERE kategori = "+kategori;
-        MenuModel model = null;
+        String query = "SELECT * FROM menu WHERE kategori = \"Makanan\"";
+        MenuModel model;
+        ArrayList<MenuModel> list = new ArrayList<>();
+        
         try {
             Statement preparedStatement = koneksiDatabase.createStatement();
             ResultSet hasilQuery = preparedStatement.executeQuery(query);
@@ -76,7 +82,7 @@ public class MenuDao {
                 //model.setFoto(hasilQuery.getString("foto"));
                 
             }            
-            return model;
+            return list;
         } catch (SQLException ex) {
             Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -137,7 +143,33 @@ public class MenuDao {
             return false;
         }
     }
-     
+     public boolean updateWithImage(int id_menu, String nama, int harga, 
+             String desc,int stok,String kategori, int deleted_status) {
+         String namaTable = "menu";
+         
+         String query= "UPDATE `menu` SET "
+                + "`nama` = '"+nama+"', "
+                + "`harga` = '"+harga+"', "
+                + "`desc` = '"+desc+"', "
+                + "`stok` = '"+stok+"', "
+                + "`foto` = '"+stok+"', "
+                + "`kategori` = '"+kategori+"'"
+                + "WHERE `menu`.`id_menu` ="+id_menu+";";
+        
+        try {
+            
+            PreparedStatement preparedStatement2 = koneksiDatabase.prepareStatement(query);
+            preparedStatement2.executeUpdate();   
+            JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
+            return true;
+          
+        } catch (SQLException ex) {
+            
+        
+            Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
      public boolean insert(MenuModel model, String s) throws FileNotFoundException {
         String namaTable = "menu";
         //String queryId = "SELECT MAX(id_menu) + 1 FROM menu";
@@ -191,5 +223,31 @@ public class MenuDao {
             return false;
         }
     }
+    
+//    public static ArrayList<MenuModel> TableGenerator() {
+//        String query = "SELECT nama, desc, harga,stok,foto FROM menu";
+//        MenuModel pl;
+//        ArrayList<MenuModel> list = new ArrayList<>();
+//        
+//        try {
+//            Statement preparedStatement = koneksiDatabase.createStatement();
+//            ResultSet rs = preparedStatement.executeQuery(query);
+//            
+//            while(rs.next()){
+//                pl = new MenuModel(rs.getString("nama"),rs.getString("desc"),
+//                        rs.getInt("harga"),rs.getInt("stok"),
+//                        rs.getBytes("foto"));
+//                
+//                list.add(pl);
+//            }            
+//            return list;
+//        } catch (SQLException ex) {
+//            Logger.getLogger(MenuDao.class.getName()).log(Level.SEVERE, null, ex);
+//            return null;
+//        }
+//        return list;
+//    }
+     
+    
     
 }

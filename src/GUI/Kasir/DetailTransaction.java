@@ -1,10 +1,12 @@
-package GUI.Kasir;
+    package GUI.Kasir;
 
 import Model.TransaksiModel;
 import Dao.MenuDao;
 import Dao.PesananDao;
 import java.util.ArrayList;
 import Model.PesananModel;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
@@ -16,15 +18,22 @@ import javax.swing.SpinnerNumberModel;
 public class DetailTransaction extends javax.swing.JFrame {
     MenuDao menu;
     int idMenu;
+    
     ArrayList<PesananModel> pesanan= new ArrayList<>();
 
     /**
      * Creates new form DetailTransaction
      */
+    
+     private Dimension layar;
     public DetailTransaction() {
         initComponents();
-       
+       //Agar posisi form diTengah :
+        layar = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((layar.width / 2) - (getSize().width / 2),
+        (layar.height / 2) - (getSize().height / 2));
     }
+  
 
     public DetailTransaction(int id) {
         initComponents();
