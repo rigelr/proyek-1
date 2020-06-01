@@ -23,8 +23,7 @@ public class DetailTransaction extends javax.swing.JFrame {
      */
     public DetailTransaction() {
         initComponents();
-        
-        
+       
     }
 
     public DetailTransaction(int id) {
