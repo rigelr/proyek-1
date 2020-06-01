@@ -28,13 +28,12 @@ public class DetailTransaction extends javax.swing.JFrame {
      private Dimension layar;
     public DetailTransaction() {
         initComponents();
-         //Agar posisi form diTengah :
+       //Agar posisi form diTengah :
         layar = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((layar.width / 2) - (getSize().width / 2),
         (layar.height / 2) - (getSize().height / 2));
-        
-        
     }
+  
 
     public DetailTransaction(int id) {
         initComponents();
