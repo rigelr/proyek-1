@@ -1,12 +1,11 @@
-    package GUI.Kasir;
+package GUI.Kasir;
 
 import Model.TransaksiModel;
 import Dao.MenuDao;
 import Dao.PesananDao;
+import Model.PesananLocal;
 import java.util.ArrayList;
 import Model.PesananModel;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
@@ -16,28 +15,18 @@ import javax.swing.SpinnerNumberModel;
  * @author user
  */
 public class DetailTransaction extends javax.swing.JFrame {
-    MenuDao menu;
+    MenuDao menu = new MenuDao();;
     int idMenu;
-    
-    ArrayList<PesananModel> pesanan= new ArrayList<>();
+    ArrayList<PesananLocal> pesan = new ArrayList<>();
 
     /**
      * Creates new form DetailTransaction
      */
-    
-     private Dimension layar;
     public DetailTransaction() {
-        initComponents();
-       //Agar posisi form diTengah :
-        layar = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation((layar.width / 2) - (getSize().width / 2),
-        (layar.height / 2) - (getSize().height / 2));
     }
-  
 
     public DetailTransaction(int id) {
         initComponents();
-        menu = new MenuDao();
         jTFmenu.setText(menu.byId(id).getNama());
         idMenu = menu.byId(id).getId_menu();
     }
@@ -125,21 +114,21 @@ public class DetailTransaction extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOkActionPerformed
-       new ConfirmOrder().show();
-       int jumlah = Integer.parseInt(jSJumlah.getValue().toString()); //ambil nilai jumlah
-        //PesananDao dao = new PesananDao();
-        ArrayList<PesananModel> pesanan= new ArrayList<>();
-        //insert ke model -> kurang set id
-        PesananModel modelPesanan = new PesananModel();
-        modelPesanan.setJumlah(jumlah); 
-        modelPesanan.setMenu_id_menu(idMenu);
-        pesanan.add(modelPesanan);
-        pesanan.add(modelPesanan);
-       
-       //dao.insert(modelPesanan); ->insert di cart
-            
+        int jumlah = Integer.parseInt(jSJumlah.getValue().toString()); //ambil nilai jumlah
+        String namaMenu = menu.byId(idMenu).getNama();
+        int harga = menu.byId(idMenu).getHarga();
+        //PesananLocal mdlPesanan = new PesananLocal(namaMenu, jumlah, harga, idMenu);
+        PesananLocal local = new PesananLocal("tahu isi", 1, 15000, 2);
+        //pesan.add(mdlPesanan);
+        pesan.add(local);
+        this.dispose();
+        System.out.println(local.getHarga());
+        System.out.println(local.getMenu());
     }//GEN-LAST:event_jBOkActionPerformed
 
+    public ArrayList<PesananLocal> getlist(){
+        return pesan;
+    }
     /**
      * @param args the command line arguments
      */
